@@ -98,11 +98,11 @@ def delete(request, user_pk=None):
         # Forbidden if the user has not enough rights, doesn't belong to the
         # gym or is an admin as well. General admins can delete all users.
         if not request.user.has_perm('gym.manage_gyms') \
-                and (not request.user.has_perm('gym.manage_gym')
-                     or request.user.userprofile.gym_id != user.userprofile.gym_id
-                     or user.has_perm('gym.manage_gym')
-                     or user.has_perm('gym.gym_trainer')
-                     or user.has_perm('gym.manage_gyms')):
+                and (not request.user.has_perm('gym.manage_gym') or
+                     request.user.userprofile.gym_id != user.userprofile.gym_id or
+                     user.has_perm('gym.manage_gym') or
+                     user.has_perm('gym.gym_trainer') or
+                     user.has_perm('gym.manage_gyms')):
             return HttpResponseForbidden()
     else:
         user = request.user
@@ -149,17 +149,17 @@ def trainer_login(request, user_pk):
         return HttpResponseForbidden()
 
     # Changing between trainers or managers is not allowed
-    if request.user.has_perm('gym.gym_trainer') \
-            and (user.has_perm('gym.gym_trainer')
-                 or user.has_perm('gym.manage_gym')
-                 or user.has_perm('gym.manage_gyms')):
+    if request.user.has_perm('gym.gym_trainer') and\
+            (user.has_perm('gym.gym_trainer') or
+                 user.has_perm('gym.manage_gym') or
+                 user.has_perm('gym.manage_gyms')):
         return HttpResponseForbidden()
 
     # Check if we're switching back to our original account
     own = False
-    if (user.has_perm('gym.gym_trainer')
-            or user.has_perm('gym.manage_gym')
-            or user.has_perm('gym.manage_gyms')):
+    if (user.has_perm('gym.gym_trainer') or
+            user.has_perm('gym.manage_gym') or
+            user.has_perm('gym.manage_gyms')):
         own = True
 
     # Note: it seems we have to manually set the authentication backend here
