@@ -8,4 +8,5 @@ exclude =
     build,
     dist,
     migrations
+max-line-length = 99
 max-complexity = 10
