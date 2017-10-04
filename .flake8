@@ -5,5 +5,5 @@ exclude =
     __pycache__,
     build,
     migrations
-max-line-length = 99
+max-line-length = 101
 max-complexity = 25
