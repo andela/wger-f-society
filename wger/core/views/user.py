@@ -151,8 +151,8 @@ def trainer_login(request, user_pk):
     # Changing between trainers or managers is not allowed
     if request.user.has_perm('gym.gym_trainer') and\
             (user.has_perm('gym.gym_trainer') or
-                 user.has_perm('gym.manage_gym') or
-                 user.has_perm('gym.manage_gyms')):
+             user.has_perm('gym.manage_gym') or
+             user.has_perm('gym.manage_gyms')):
         return HttpResponseForbidden()
 
     # Check if we're switching back to our original account

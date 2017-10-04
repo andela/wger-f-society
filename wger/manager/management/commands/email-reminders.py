@@ -50,9 +50,9 @@ class Command(BaseCommand):
 
             # Check if we already notified the user and update the profile otherwise
             if profile.last_workout_notification and \
-               (datetime.date.today() -
-                profile.last_workout_notification <
-                datetime.timedelta(weeks=1)):
+                (datetime.date.today() -
+                 profile.last_workout_notification <
+                 datetime.timedelta(weeks=1)):
                 continue
 
             (current_workout, schedule) = Schedule.objects.get_current_workout(profile.user)
