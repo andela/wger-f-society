@@ -200,8 +200,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     ('index', 'wgerWorkoutManager.tex', u'wger Workout Manager Documentation',
-
-    u'Roland Geider', 'manual'),
+     u'Roland Geider', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
