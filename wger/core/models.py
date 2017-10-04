@@ -393,9 +393,15 @@ by the US Department of Agriculture. It is extremely complete, with around
         weight = self.weight if self.use_metric else AbstractWeight(self.weight, 'lb').kg
 
         try:
+<<<<<<< HEAD
             rate = ((10 * weight) +   # in kg
                     (decimal.Decimal(6.25) * self.height) -   # in cm
                     (5 * self.age) +   # in years
+=======
+            rate = ((10 * weight) +  # in kg
+                    (decimal.Decimal(6.25) * self.height) -  # in cm
+                    (5 * self.age) +  # in years
+>>>>>>> af31605c0aff3d10b21f50fc0fa9f36024b1c256
                     factor)
         # Any of the entries is missing
         except TypeError:
