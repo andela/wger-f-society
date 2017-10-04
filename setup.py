@@ -18,8 +18,7 @@ with open('requirements.txt') as requirements_production:
 
 setup(
     name='wger',
-    description=
-    'FLOSS workout, fitness and weight manager/tracker written with Django',
+    description='FLOSS workout, fitness and weight manager/tracker written with Django',
     long_description=long_description,
     version=get_version(),
     url='https://github.com/wger-project',
