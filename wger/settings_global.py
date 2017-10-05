@@ -176,7 +176,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT, 'components')
+BOWER_COMPONENTS_ROOT = os.path.join(BAS, 'components')
 
 
 STATICFILES_FINDERS = (
@@ -320,7 +320,7 @@ THUMBNAIL_ALIASES = {
 #
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
-BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT, 'components')
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
 
 # The default is not DEBUG, override if needed
 # COMPRESS_ENABLED = True
