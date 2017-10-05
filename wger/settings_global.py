@@ -25,10 +25,7 @@ For a full list of options, visit:
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), ".."),
-)
-
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
 #
@@ -174,11 +171,6 @@ TEMPLATES = [
 # Store the user messages in the session
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_URL = '/static/'
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
-
-
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -318,9 +310,8 @@ THUMBNAIL_ALIASES = {
 #
 # Django compressor
 #
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = ''
 STATIC_URL = '/static/'
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'components')
 
 # The default is not DEBUG, override if needed
 # COMPRESS_ENABLED = True
