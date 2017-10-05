@@ -41,6 +41,7 @@ from wger.core.api import views as core_api_views
 from wger.exercises.api import views as exercises_api_views
 from wger.nutrition.api import views as nutrition_api_views
 from wger.weight.api import views as weight_api_views
+from django.contrib import admin
 
 #
 # REST API
@@ -166,7 +167,6 @@ router.register(
     weight_api_views.WeightEntryViewSet,
     base_name='weightentry')
 
-from django.contrib import admin
 admin.autodiscover()
 
 #
