@@ -4,6 +4,8 @@ exclude =
     .git,
     __pycache__,
     build,
-    migrations
+    migrations,
+    settings.py,
+    urls.py
 max-line-length = 101
 max-complexity = 25
