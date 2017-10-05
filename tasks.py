@@ -99,7 +99,7 @@ def bootstrap_wger(context,
         create_or_reset_admin(context, settings_path=settings_path)
 
     # Download JS libraries with bower
-    os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '/app/wger'))
+    os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wger'))
     context.run('npm install bower')
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     print("***** {}".format(os.path.dirname(os.path.abspath(__file__))))
