@@ -20,8 +20,14 @@ DATABASES = {
       )
 }
 
+#MIDDLEWARE_CLASSES = [
+# 'django.middleware.security.SecurityMiddleware',
+#  'whitenoise.middleware.WhiteNoiseMiddleware'
+#]
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'j&gxzcj#aq%_5ia7*6ocm4a^g6p%!rffwat#^&3i0%(*$78&sy'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Your reCaptcha keys
 RECAPTCHA_PUBLIC_KEY = ''
@@ -51,5 +57,8 @@ if DEBUG:
 # Sender address used for sent emails
 WGER_SETTINGS['EMAIL_FROM'] = 'wger Workout Manager <wger@example.com>'
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_URL = '/wger/core/static/'
 # Your twitter handle, if you have one for this instance.
 #WGER_SETTINGS['TWITTER'] = ''
