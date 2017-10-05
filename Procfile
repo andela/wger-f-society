@@ -1,4 +1,4 @@
 release: invoke create-settings --settings-path /app/settings.py
 release: invoke migrate_db
 release: invoke bootstrap-wger --settings-path /app/settings.py --no-start-server
-web: gunicorn wger.wsgi:application --preload --workers 1 --log-level debug
+web: invoke start-wger
