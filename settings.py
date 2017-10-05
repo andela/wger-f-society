@@ -31,8 +31,7 @@ SECRET_KEY = 'j&gxzcj#aq%_5ia7*6ocm4a^g6p%!rffwat#^&3i0%(*$78&sy'
 
 # Your reCaptcha keys
 RECAPTCHA_PUBLIC_KEY = ''
-RECAPTCHA_PRIVAT
-E_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
 NOCAPTCHA = True
 
 # The site's URL (e.g. http://www.my-local-gym.com or http://localhost:8000)
