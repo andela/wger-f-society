@@ -102,6 +102,7 @@ def bootstrap_wger(context,
     os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wger'))
     context.run('npm install bower')
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    print("***** {}".format(os.path.dirname(os.path.abspath(__file__))))
     call_command('bower', 'install')
 
     # Start the webserver
