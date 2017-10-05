@@ -6,6 +6,8 @@ exclude =
     build,
     migrations,
     settings.py,
-    urls.py
+    urls.py,
+    conf.py,
+    pdf.py
 max-line-length = 101
 max-complexity = 25
