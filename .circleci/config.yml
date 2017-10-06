@@ -33,13 +33,16 @@ jobs:
             python3 -m venv venv
             . venv/bin/activate
             pip install -r requirements.txt
+            pip install wger
 
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "requirements.txt" }}
-      - run: pwd 
-      - run: ls
+      
+      - run: wger create_settings ./setting.py --database-path ./wger/database.sqlite
+      - run: wger bootstrap_wger ./setting.py --no-start-server
+
       # run tests!
       - run:
           name: run tests
