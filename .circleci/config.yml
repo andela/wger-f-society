@@ -38,10 +38,9 @@ jobs:
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-      
-      - run: wger create_settings ./setting.py --database-path ./wger/database.sqlite
-      - run: wger bootstrap_wger ./setting.py --no-start-server
+          key: v1-dependencies-{{ checksum "requirements.txt" }}   
+      - run: invoke create_settings ./setting.py --database-path ./wger/database.sqlite
+      - run: invoke bootstrap_wger ./setting.py --no-start-server
 
       # run tests!
       - run:
