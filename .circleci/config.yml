@@ -38,16 +38,16 @@ jobs:
       - save_cache:
           paths:
             - ./venv
+
           key: v1-dependencies-{{ checksum "requirements.txt" }} 
-      - run: invoke -V
-      - run: invoke create_settings --settings-path ./settings.py --database-path ./wger/database.sqlite
-      - run: invoke bootstrap_wger --settings-path ./settings.py --no-start-server
 
       # run tests!
       - run:
           name: run tests
           command: |
             . venv/bin/activate
+            invoke create_settings --settings-path ./settings.py --database-path ./wger/database.sqlite
+            invoke bootstrap_wger --settings-path ./settings.py --no-start-server
             python manage.py test
 
       - store_artifacts:
