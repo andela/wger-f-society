@@ -50,18 +50,18 @@ class Command(BaseCommand):
 
             # Check if we already notified the user and update the profile otherwise
             if profile.last_workout_notification and \
-               (datetime.date.today()
-                    - profile.last_workout_notification
-                    < datetime.timedelta(weeks=1)):
+                (datetime.date.today() -
+                 profile.last_workout_notification <
+                 datetime.timedelta(weeks=1)):
                 continue
 
             (current_workout, schedule) = Schedule.objects.get_current_workout(profile.user)
 
             # No schedules, use the default workout length in user profile
             if not schedule and current_workout:
-                delta = (current_workout.creation_date
-                         + datetime.timedelta(weeks=profile.workout_duration)
-                         - datetime.date.today())
+                delta = (current_workout.creation_date +
+                         datetime.timedelta(weeks=profile.workout_duration) -
+                         datetime.date.today())
 
                 if datetime.timedelta(days=profile.workout_reminder) > delta:
                     if int(options['verbosity']) >= 3:
