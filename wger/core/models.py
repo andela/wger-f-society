@@ -347,9 +347,9 @@ by the US Department of Agriculture. It is extremely complete, with around
         '''
         Make sure the total amount of hours is 24
         '''
-        if ((self.sleep_hours and self.freetime_hours and self.work_hours)
-           and (self.sleep_hours + self.freetime_hours + self.work_hours) > 24):
-                raise ValidationError(_('The sum of all hours has to be 24'))
+        if ((self.sleep_hours and self.freetime_hours and self.work_hours) and
+                (self.sleep_hours + self.freetime_hours + self.work_hours) > 24):
+            raise ValidationError(_('The sum of all hours has to be 24'))
 
     def __str__(self):
         '''
@@ -393,10 +393,10 @@ by the US Department of Agriculture. It is extremely complete, with around
         weight = self.weight if self.use_metric else AbstractWeight(self.weight, 'lb').kg
 
         try:
-            rate = ((10 * weight)  # in kg
-                    + (decimal.Decimal(6.25) * self.height)  # in cm
-                    - (5 * self.age)  # in years
-                    + factor)
+            rate = ((10 * weight) +   # in kg
+                    (decimal.Decimal(6.25) * self.height) -   # in cm
+                    (5 * self.age) +   # in years
+                    factor)
         # Any of the entries is missing
         except TypeError:
             rate = 0
@@ -449,10 +449,10 @@ by the US Department of Agriculture. It is extremely complete, with around
         '''
         Create a new weight entry as needed
         '''
-        if (not WeightEntry.objects.filter(user=self.user).exists()
-            or (datetime.date.today()
-                - WeightEntry.objects.filter(user=self.user).latest().date
-                > datetime.timedelta(days=3))):
+        if (not WeightEntry.objects.filter(user=self.user).exists() or
+            (datetime.date.today() -
+                WeightEntry.objects.filter(user=self.user).latest().date >
+                datetime.timedelta(days=3))):
             entry = WeightEntry()
             entry.weight = weight
             entry.user = self.user

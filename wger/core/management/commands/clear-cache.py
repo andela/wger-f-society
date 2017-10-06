@@ -63,9 +63,9 @@ class Command(BaseCommand):
         Process the options
         '''
 
-        if (not options['clear_template']
-                and not options['clear_workout']
-                and not options['clear_all']):
+        if (not options['clear_template'] and not
+                options['clear_workout'] and not
+                options['clear_all']):
             raise CommandError('Please select what cache you need to delete, see help')
 
         # Exercises, cached template fragments

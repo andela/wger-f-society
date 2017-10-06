@@ -136,8 +136,8 @@ def render_workout_day(day, nr_of_weeks=7, images=False, comments=False, only_ta
 
             data.append([set_count,
                          exercise_content,
-                         setting_out]
-                        + [''] * nr_of_weeks)
+                         setting_out] +
+                        [''] * nr_of_weeks)
         set_count += 1
 
     table_style = [('FONT', (0, 0), (-1, -1), 'OpenSans'),
@@ -307,6 +307,7 @@ class WorkoutCalendar(HTMLCalendar):
     A calendar renderer, see this blog entry for details:
     * http://uggedal.com/journal/creating-a-flexible-monthly-calendar-in-django/
     '''
+
     def __init__(self, workout_logs, *args, **kwargs):
         super(WorkoutCalendar, self).__init__(*args, **kwargs)
         self.workout_logs = workout_logs
