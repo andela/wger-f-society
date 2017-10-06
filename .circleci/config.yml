@@ -40,6 +40,12 @@ jobs:
             - ./venv
 
           key: v1-dependencies-{{ checksum "requirements.txt" }} 
+<<<<<<< HEAD
+=======
+      - run: invoke -V
+      - run: invoke create_settings --settings-path ./settings.py --database-path ./wger/database.sqlite
+      - run: invoke bootstrap_wger --settings-path ./settings.py --no-start-server
+>>>>>>> f75d17064a8de9883bd851ffb011cf04ae840eb7
 
       # run tests!
       - run:
