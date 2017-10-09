@@ -16,10 +16,6 @@
 
 import re
 import sys
-<<<<<<< HEAD
-
-=======
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 '''
 This file contains the global settings that don't usually need to be changed.
 For a full list of options, visit:
@@ -88,12 +84,7 @@ INSTALLED_APPS = (
     'corsheaders',
 
     # django-bower for installing bower packages
-<<<<<<< HEAD
-    'djangobower',
-)
-=======
     'djangobower', )
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 # added list of external libraries to be installed by bower
 BOWER_INSTALLED_APPS = (
@@ -107,12 +98,7 @@ BOWER_INSTALLED_APPS = (
     'tinymce',
     'metrics-graphics',
     'devbridge-autocomplete#1.2.x',
-<<<<<<< HEAD
-    'sortablejs#1.4.x',
-)
-=======
     'sortablejs#1.4.x', )
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
@@ -128,30 +114,16 @@ MIDDLEWARE_CLASSES = (
 
     # Send an appropriate Header so search engines don't index pages
     'wger.utils.middleware.RobotsExclusionMiddleware',
-<<<<<<< HEAD
-
-=======
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
     # Django mobile
     'django_mobile.middleware.MobileDetectionMiddleware',
-<<<<<<< HEAD
-    'django_mobile.middleware.SetFlavourMiddleware',
-)
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'wger.utils.helpers.EmailAuthBackend'
-)
-=======
     'django_mobile.middleware.SetFlavourMiddleware', )
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
                            'wger.utils.helpers.EmailAuthBackend')
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 TEMPLATES = [
     {
@@ -179,19 +151,11 @@ TEMPLATES = [
             'loaders': [
                 # Django mobile
                 'django_mobile.loader.Loader',
-<<<<<<< HEAD
-
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
-            ],
-            'debug': False
-=======
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
             ],
             'debug':
             False
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
         },
     },
 ]
@@ -206,12 +170,7 @@ STATICFILES_FINDERS = (
     'djangobower.finders.BowerFinder',
 
     # Django compressor
-<<<<<<< HEAD
-    'compressor.finders.CompressorFinder',
-)
-=======
     'compressor.finders.CompressorFinder', )
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 #
 # Email
@@ -253,24 +212,13 @@ LANGUAGES = (
     ('el', 'Greek'),
     ('cs', 'Czech'),
     ('sv', 'Swedish'),
-<<<<<<< HEAD
-    ('no', 'Norwegian'),
-)
-=======
     ('no', 'Norwegian'), )
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 # Default language code for this installation.
 LANGUAGE_CODE = 'en'
 
 # All translation files are in one place
-<<<<<<< HEAD
-LOCALE_PATHS = (
-    os.path.join(SITE_ROOT, 'locale'),
-)
-=======
 LOCALE_PATHS = (os.path.join(SITE_ROOT, 'locale'), )
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 FLAVOURS_STORAGE_BACKEND = 'session'
 
@@ -322,26 +270,6 @@ CACHES = {
 #
 THUMBNAIL_ALIASES = {
     '': {
-<<<<<<< HEAD
-        'micro': {'size': (30, 30)},
-        'micro_cropped': {'size': (30, 30), 'crop': 'smart'},
-
-        'thumbnail': {'size': (80, 80)},
-        'thumbnail_cropped': {'size': (80, 80), 'crop': 'smart'},
-
-        'small': {'size': (200, 200)},
-        'small_cropped': {'size': (200, 200), 'crop': 'smart'},
-
-        'medium': {'size': (400, 400)},
-        'medium_cropped': {'size': (400, 400), 'crop': 'smart'},
-
-        'large': {'size': (800, 800), 'quality': 90},
-        'large_cropped': {'size': (800, 800), 'crop': 'smart', 'quality': 90},
-    },
-}
-
-
-=======
         'micro': {
             'size': (30, 30)
         },
@@ -382,7 +310,6 @@ THUMBNAIL_ALIASES = {
     },
 }
 
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 #
 # Django compressor
 #
@@ -391,15 +318,8 @@ STATIC_URL = '/static/'
 
 # The default is not DEBUG, override if needed
 # COMPRESS_ENABLED = True
-<<<<<<< HEAD
-COMPRESS_CSS_FILTERS = (
-    'compressor.filters.css_default.CssAbsoluteFilter',
-    'compressor.filters.cssmin.rCSSMinFilter'
-)
-=======
 COMPRESS_CSS_FILTERS = ('compressor.filters.css_default.CssAbsoluteFilter',
                         'compressor.filters.cssmin.rCSSMinFilter')
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 COMPRESS_ROOT = STATIC_ROOT
 
 # BOWER binary
@@ -412,21 +332,6 @@ else:
 # Django Rest Framework
 #
 REST_FRAMEWORK = {
-<<<<<<< HEAD
-    'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission',),
-    'PAGINATE_BY': 20,
-    'PAGINATE_BY_PARAM': 'limit',  # Allow client to override, using `?limit=xxx`.
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
-                                'rest_framework.filters.OrderingFilter',)
-}
-
-
-=======
     'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission', ),
     'PAGINATE_BY':
     20,
@@ -442,7 +347,6 @@ REST_FRAMEWORK = {
         'rest_framework.filters.OrderingFilter', )
 }
 
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 #
 # CORS headers: allow all hosts to access the API
 #
@@ -452,13 +356,7 @@ CORS_URLS_REGEX = r'^/api/.*$'
 #
 # Ignore these URLs if they cause 404
 #
-<<<<<<< HEAD
-IGNORABLE_404_URLS = (
-    re.compile(r'^/favicon\.ico$'),
-)
-=======
 IGNORABLE_404_URLS = (re.compile(r'^/favicon\.ico$'), )
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 
 #
 # Application specific configuration options
@@ -472,11 +370,6 @@ WGER_SETTINGS = {
     'ALLOW_GUEST_USERS': True,
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False,
-<<<<<<< HEAD
-    'FITBIT_CLIENT_ID': os.getenv('fitbit_client_id'),
-    'FITBIT_CLIENT_SECRET': os.getenv('fitbit_client_secret')
-=======
     'FITBIT_CLIENT_ID': None,
     'FITBIT_CLIENT_SECRET': None
->>>>>>> #151629853 Python Coding styles (Error/Warnings) (#1)
 }
