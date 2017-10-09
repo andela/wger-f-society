@@ -1,5 +1,5 @@
 [flake8]
-ignore = E501, F401
+ignore = E501,F401, site-packages
 exclude =
     .git,
     __pycache__,
