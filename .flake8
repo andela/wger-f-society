@@ -1,9 +1,10 @@
 [flake8]
-ignore = E501
+ignore = E501,F401
 exclude =
     .git,
     __pycache__,
     build,
+    site-packages,
     migrations,
     urls.py,
     conf.py,
