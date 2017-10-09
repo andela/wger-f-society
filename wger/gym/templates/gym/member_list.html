@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load i18n staticfiles wger_extras django_bootstrap_breadcrumbs %}
 
-{% block title %}{{gym}}{% endblock %}
+{% block title %}{{gym}}
+    <small title="Members" style="position:absolute;right:32px;margin-top:15px;">
+        <a href="active">Active</a>|<a href="inactive">Inactive</a>
+    </small>
+{% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
