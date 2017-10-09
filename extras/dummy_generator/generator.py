@@ -26,9 +26,6 @@ import argparse
 from django.db import IntegrityError
 from django.utils.text import slugify
 
-sys.path.insert(0, os.path.join('..', '..'))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
-django.setup()
 
 # Must happen after calling django.setup()
 from django.contrib.auth.models import User
@@ -61,6 +58,10 @@ from wger.nutrition.models import (
     Meal,
     MealItem
 )
+
+sys.path.insert(0, os.path.join('..', '..'))
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+django.setup()
 
 parser = argparse.ArgumentParser(description='Data generator. Please consult the documentation')
 subparsers = parser.add_subparsers(help='The kind of entries you want to generate')
