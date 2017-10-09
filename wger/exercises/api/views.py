@@ -122,6 +122,25 @@ def search(request):
 
     return Response(json_response)
 
+class ExercisesViewSet(viewsets.ReadOnlyModelViewSet):
+    '''
+    Read-only API endpoint for getting all exercises
+    '''
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, CreateOnlyPermission)
+    ordering_fields = '__all__'
+    filter_fields = ('category',
+                     'creation_date',
+                     'description',
+                     'language',
+                     'muscles',
+                     'muscles_secondary',
+                     'status',
+                     'name',
+                     'equipment',
+                     'license',
+                     'license_author')
 
 class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     '''
