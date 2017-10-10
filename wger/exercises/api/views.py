@@ -77,6 +77,7 @@ class ExerciseViewSet(viewsets.ModelViewSet):
         obj.set_author(self.request)
         obj.save()
 
+
 @api_view(['GET'])
 def search(request):
     '''
@@ -87,7 +88,6 @@ def search(request):
     q = request.GET.get('term', None)
     results = []
     json_response = {}
-    
     if q:
         languages = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES,
                                         language_code=request.GET.get('language', None))
@@ -121,6 +121,7 @@ def search(request):
         json_response['suggestions'] = results
     return Response(json_response)
 
+
 class ExercisesViewSet(viewsets.ReadOnlyModelViewSet):
     '''
     Read-only API endpoint for getting all exercises
@@ -140,6 +141,7 @@ class ExercisesViewSet(viewsets.ReadOnlyModelViewSet):
                      'equipment',
                      'license',
                      'license_author')
+
 
 class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
     '''
