@@ -35,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'email', 'password', 'first_name', 'last_name')
 
+
 class UserprofileSerializer(serializers.ModelSerializer):
     '''
     Workout session serializer
