@@ -119,7 +119,8 @@ class NutritionPlan(models.Model):
         '''
         cached_plans = cache.get(str(self.id))
         if cached_plans:
-            result = cache.get(str(self.id))
+            result = cached_plans
+            return result
         else:
             use_metric = self.user.userprofile.use_metric
             unit = 'kg' if use_metric else 'lb'
@@ -407,7 +408,6 @@ class Ingredient(AbstractLicenseModel, models.Model):
         '''
         Reset the cache
         '''
-        print("here")
         super(Ingredient, self).save(*args, **kwargs)
         cache.delete(cache_mapper.get_ingredient_key(self.id))
 
