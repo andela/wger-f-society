@@ -130,6 +130,7 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
                                  'users': context['object_list']['members']}
         return context
 
+
 class GymUserActiveInactive(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, ListView):
     '''
     Overview of all inactive/active users for a specific gym
@@ -184,7 +185,6 @@ class GymUserActiveInactive(LoginRequiredMixin, WgerMultiplePermissionRequiredMi
         context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'), _('Last activity')],
                                  'users': context['object_list']['members']}
         return context
-
 
 
 class GymAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
