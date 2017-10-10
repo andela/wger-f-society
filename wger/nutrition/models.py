@@ -407,7 +407,7 @@ class Ingredient(AbstractLicenseModel, models.Model):
         '''
         Reset the cache
         '''
-
+        print("here")
         super(Ingredient, self).save(*args, **kwargs)
         cache.delete(cache_mapper.get_ingredient_key(self.id))
 

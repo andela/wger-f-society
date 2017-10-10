@@ -27,6 +27,9 @@ from wger.exercises.views import (
     equipment
 )
 
+from wger.exercises.views import (exercises, comments, categories, muscles,
+                                  images, equipment)
+
 # sub patterns for muscles
 patterns_muscle = [
     url(r'^overview/$', muscles.MuscleListView.as_view(), name='overview'),
