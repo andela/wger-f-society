@@ -18,7 +18,6 @@
 from django.conf.urls import patterns, url, include
 from django.contrib.auth.decorators import login_required
 
-<<<<<<< HEAD
 from wger.exercises.views import (
     exercises,
     comments,
@@ -27,10 +26,9 @@ from wger.exercises.views import (
     images,
     equipment
 )
-=======
+
 from wger.exercises.views import (exercises, comments, categories, muscles,
                                   images, equipment)
->>>>>>> 1ad2d43e437bab4fae95af93a2b277f6ea35d87d
 
 # sub patterns for muscles
 patterns_muscle = [

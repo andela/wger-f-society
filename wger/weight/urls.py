@@ -35,19 +35,10 @@ urlpatterns = [
     # url(r'^overview/$',
     #     views.overview,
     #     name='overview'),
-<<<<<<< HEAD
     url(r'^api/get_weight_data/(?P<username>[\w.@+-]+)$',  # JS
         views.get_weight_data,
         name='weight-data'),
     url(r'^api/get_weight_data/$',  # JS
-=======
-    url(
-        r'^api/get_weight_data/(?P<username>[\w.@+-]+)$',  # JS
-        views.get_weight_data,
-        name='weight-data'),
-    url(
-        r'^api/get_weight_data/$',  # JS
->>>>>>> 1ad2d43e437bab4fae95af93a2b277f6ea35d87d
         views.get_weight_data,
         name='weight-data'),
 ]
