@@ -85,6 +85,7 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
     model = User
     permission_required = ('gym.manage_gym', 'gym.gym_trainer', 'gym.manage_gyms')
     template_name = 'gym/member_list.html'
+    user_status = ''
 
     def dispatch(self, request, *args, **kwargs):
         '''
@@ -101,10 +102,14 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
         '''
         Return a list with the users, not really a queryset.
         '''
+        path = self.request.path
+        status = path.split("/")[-1]
+        self.user_status = status if status == 'active' or status == 'inactive' else ''
+        
         out = {'admins': [],
-               'members': []}
+               'members': [],}
 
-        for u in Gym.objects.get_members(self.kwargs['pk']).select_related('usercache'):
+        for u in Gym.objects.get_members(self.kwargs['pk'], self.user_status).select_related('usercache'):
             out['members'].append({'obj': u,
                                    'last_log': u.usercache.last_activity})
 
@@ -125,62 +130,7 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
         context = super(GymUserListView, self).get_context_data(**kwargs)
         context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
         context['admin_count'] = len(context['object_list']['admins'])
-        context['user_count'] = len(context['object_list']['members'])
-        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'), _('Last activity')],
-                                 'users': context['object_list']['members']}
-        return context
-
-
-class GymUserActiveInactive(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, ListView):
-    '''
-    Overview of all inactive/active users for a specific gym
-    '''
-    model = User
-    permission_required = ('gym.manage_gym', 'gym.gym_trainer', 'gym.manage_gyms')
-    template_name = 'gym/member_list.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        '''
-        Only managers and trainers for this gym can access the members
-        '''
-        if request.user.has_perm('gym.manage_gyms') or\
-            ((request.user.has_perm('gym.manage_gym') or
-              request.user.has_perm('gym.gym_trainer')) and
-             request.user.userprofile.gym_id == int(self.kwargs['pk'])):
-            return super(GymUserActiveInactive, self).dispatch(request, *args, **kwargs)
-        return HttpResponseForbidden()
-
-    def get_queryset(self):
-        '''
-        Return a list with the users, not really a queryset.
-        '''
-        path = self.request.path
-        status = path.split("/")[-2]
-        # import pdb; pdb.set_trace()
-        out = {'admins': [],
-               'members': []}
-
-        for u in Gym.objects.get_members(self.kwargs['pk'], status).select_related('usercache'):
-            out['members'].append({'obj': u,
-                                   'last_log': u.usercache.last_activity})
-
-        # admins list
-        for u in Gym.objects.get_admins(self.kwargs['pk']):
-            out['admins'].append({'obj': u,
-                                  'perms': {'manage_gym': u.has_perm('gym.manage_gym'),
-                                            'manage_gyms': u.has_perm('gym.manage_gyms'),
-                                            'gym_trainer': u.has_perm('gym.gym_trainer'),
-                                            'any_admin': is_any_gym_admin(u)}
-                                  })
-        return out
-
-    def get_context_data(self, **kwargs):
-        '''
-        Pass other info to the template
-        '''
-        context = super(GymUserActiveInactive, self).get_context_data(**kwargs)
-        context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
-        context['admin_count'] = len(context['object_list']['admins'])
+        context['user_status'] = self.user_status.title()
         context['user_count'] = len(context['object_list']['members'])
         context['user_table'] = {'keys': [_('ID'), _('Username'), _('Name'), _('Last activity')],
                                  'users': context['object_list']['members']}
