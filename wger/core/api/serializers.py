@@ -27,7 +27,7 @@ from wger.core.models import (
     WeightUnit)
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserRegistrationSerializer(serializers.ModelSerializer):
     '''
     The create new user serializers
     '''
