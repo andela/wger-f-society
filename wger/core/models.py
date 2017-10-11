@@ -213,6 +213,11 @@ by the US Department of Agriculture. It is extremely complete, with around
                           null=True)
     '''The user's height'''
 
+    created_by = models.CharField(default=None,
+                                  null=True,
+                                  max_length=100)
+    '''The created users flag'''
+
     gender = models.CharField(max_length=1,
                               choices=GENDER,
                               default=GENDER_MALE,
