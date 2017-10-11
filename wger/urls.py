@@ -123,7 +123,10 @@ router.register(
 # Exercises app
 router.register(r'exercise', exercises_api_views.ExerciseViewSet, base_name='exercise')
 router.register(r'equipment', exercises_api_views.EquipmentViewSet, base_name='api')
-router.register(r'exercise_details', exercises_api_views.ExercisesViewSet, base_name="exercise_details")
+router.register(
+    r'exercise_details',
+    exercises_api_views.ExerciseDetailViewSet,
+    base_name="exercise_details")
 router.register(r'exercisecategory', exercises_api_views.ExerciseCategoryViewSet, base_name='exercisecategory')
 router.register(r'exerciseimage', exercises_api_views.ExerciseImageViewSet, base_name='exerciseimage')
 router.register(r'exercisecomment', exercises_api_views.ExerciseCommentViewSet, base_name='exercisecomment')
