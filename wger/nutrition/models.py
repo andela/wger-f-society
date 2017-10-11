@@ -117,6 +117,10 @@ class NutritionPlan(models.Model):
         '''
         Sums the nutritional info of all items in the plan
         '''
+        cached_plans = cache.get(str(self.id))
+        if cached_plans:
+            result = cached_plans
+            return result
         use_metric = self.user.userprofile.use_metric
         unit = 'kg' if use_metric else 'lb'
         result = {
@@ -167,7 +171,7 @@ class NutritionPlan(models.Model):
         for key in result.keys():
             for i in result[key]:
                 result[key][i] = Decimal(result[key][i]).quantize(TWOPLACES)
-
+        cache.set(str(self.id), result)
         return result
 
     def get_closest_weight_entry(self):
@@ -403,7 +407,6 @@ class Ingredient(AbstractLicenseModel, models.Model):
         '''
         Reset the cache
         '''
-
         super(Ingredient, self).save(*args, **kwargs)
         cache.delete(cache_mapper.get_ingredient_key(self.id))
 
