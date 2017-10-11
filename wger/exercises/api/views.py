@@ -29,7 +29,7 @@ from wger.config.models import LanguageConfig
 from wger.exercises.api.serializers import (
     MuscleSerializer,
     ExerciseSerializer,
-    ExercisesSerializer,
+    ExerciseDetailSerializer,
     ExerciseImageSerializer,
     ExerciseCategorySerializer,
     EquipmentSerializer,
@@ -122,12 +122,12 @@ def search(request):
     return Response(json_response)
 
 
-class ExercisesViewSet(viewsets.ReadOnlyModelViewSet):
+class ExerciseDetailViewSet(viewsets.ReadOnlyModelViewSet):
     '''
     Read-only API endpoint for getting all exercises
     '''
     queryset = Exercise.objects.all()
-    serializer_class = ExercisesSerializer
+    serializer_class = ExerciseDetailSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, CreateOnlyPermission)
     ordering_fields = '__all__'
     filter_fields = ('category',
