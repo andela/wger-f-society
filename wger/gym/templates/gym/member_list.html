@@ -3,7 +3,7 @@
 
 {% block title %}{{gym}}
     <small title="Members" style="position:absolute;right:32px;margin-top:15px;">
-        <a href="{% url 'gym:gym:user-category' gym.id 'active' %}">Active</a>|<a href="{% url 'gym:gym:user-category' gym.id 'inactive' %}">Inactive</a>
+        <a  href="{% url 'gym:gym:user-category' gym.id 'active' %}">Active</a>|<a href="{% url 'gym:gym:user-category' gym.id 'inactive' %}">Inactive</a>
     </small>
 {% endblock %}
 
@@ -13,6 +13,7 @@
     {% if perms.gym.manage_gyms %}
         {% breadcrumb "Gyms" "gym:gym:list" %}
         {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
+        {% breadcrumb_raw user_status "gym:gym:user-category" %}
     {% endif %}
 {% endblock %}
 
