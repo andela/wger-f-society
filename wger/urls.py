@@ -109,6 +109,8 @@ router.register(
 router.register(
     r'language', core_api_views.LanguageViewSet, base_name='language')
 router.register(
+    r'user/register', core_api_views.UserRegistrationViewset, base_name='user-register')
+router.register(
     r'daysofweek', core_api_views.DaysOfWeekViewSet, base_name='daysofweek')
 router.register(r'license', core_api_views.LicenseViewSet, base_name='license')
 router.register(
