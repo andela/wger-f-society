@@ -357,7 +357,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
                                 'rest_framework.filters.OrderingFilter'),
-    'PAGINATE_BY':20,
+    'PAGINATE_BY': 20,
     'PAGINATE_BY_PARAM':
     'limit',  # Allow client to override, using `?limit=xxx`.
     'TEST_REQUEST_DEFAULT_FORMAT':

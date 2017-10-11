@@ -5,6 +5,7 @@ from django.core.cache import cache
 
 signal_types = [post_delete, post_save]
 
+
 @receiver(signal_types, sender=NutritionPlan)
 @receiver(signal_types, sender=Meal)
 @receiver(signal_types, sender=MealItem)
