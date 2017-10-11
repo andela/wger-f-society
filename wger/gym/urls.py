@@ -31,7 +31,7 @@ patterns_gym = [
         gym.GymUserListView.as_view(),
         name='user-list'),
     url(r'^(?P<pk>\d+)/members/([active|inactive])',
-        gym.GymUserActiveInactive.as_view(),
+        gym.GymUserListView.as_view(),
         name='user-category'),
     url(r'^(?P<gym_pk>\d+)/add-member$',
         gym.GymAddUserView.as_view(),

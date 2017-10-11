@@ -105,9 +105,9 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
         path = self.request.path
         status = path.split("/")[-1]
         self.user_status = status if status == 'active' or status == 'inactive' else ''
-        
+ 
         out = {'admins': [],
-               'members': [],}
+               'members': []}
 
         for u in Gym.objects.get_members(self.kwargs['pk'], self.user_status).select_related('usercache'):
             out['members'].append({'obj': u,
