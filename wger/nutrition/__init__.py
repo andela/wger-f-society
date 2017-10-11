@@ -16,5 +16,5 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from wger import get_version
-
+default_app_config = 'wger.nutrition.app.NutritionConfig'
 VERSION = get_version()
