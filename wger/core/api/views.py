@@ -16,7 +16,9 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
-from rest_framework import viewsets
+from django.contrib.auth.hashers import make_password
+from django.db import IntegrityError
+from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
@@ -28,6 +30,7 @@ from wger.core.models import (
     RepetitionUnit,
     WeightUnit)
 from wger.core.api.serializers import (
+    UserRegistrationSerializer,
     UsernameSerializer,
     LanguageSerializer,
     DaysOfWeekSerializer,
@@ -37,6 +40,39 @@ from wger.core.api.serializers import (
 )
 from wger.core.api.serializers import UserprofileSerializer
 from wger.utils.permissions import UpdateOnlyPermission, WgerPermission
+
+
+class UserRegistrationViewset(viewsets.ModelViewSet):
+    '''
+    Api endpoint for the user registration using api_key
+    '''
+    is_private = True
+    serializer_class = UserRegistrationSerializer
+    ordering_fields = ('username', 'email', 'password')
+    queryset = User.objects.all()
+
+    def create(self, request):
+        '''
+        API endpoint for creating users
+        '''
+        creators_profile = UserProfile.objects.get(user=self.request.user)
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            new_api_user = User.objects.create_user(
+                username=request.data.get('username'),
+                email=request.data.get('email', None),
+                password=make_password(request.data.get('password'))
+            )
+            try:
+                new_api_user.save()
+            except IntegrityError as error:
+                response = {'message' : error}
+                return Response(response, status=status.HTTP_400_BAD_REQUEST)
+            new_api_user_profile = UserProfile.objects.get(user=new_api_user)
+            new_api_user_profile.created_by = creators_profile.user.username
+            new_api_user_profile.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserProfileViewSet(viewsets.ModelViewSet):
