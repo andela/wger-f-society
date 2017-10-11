@@ -131,7 +131,7 @@
         "pk": 17,
         "model": "exercises.muscle",
         "fields": {
-            "is_front":,
+            "is_front": false,
             "name":"lateral deltoid"
         }
     },
@@ -139,7 +139,7 @@
         "pk": 18,
         "model": "exercises.muscle",
         "fields": {
-            "is_front":,
+            "is_front": true,
             "name": "Obliquus externus abdominis"
         }
     },
@@ -147,7 +147,7 @@
         "pk": 19,
         "model": "exercises.muscle",
         "fields": {
-            "is_front":,
+            "is_front": false,
             "name": "Posterious Deltoid"
         }
     },
@@ -155,7 +155,7 @@
         "pk": 20,
         "model": "exercises.muscle",
         "fields": {
-            "is_front": ,
+            "is_front": true,
             "name": "Forearms"
         }
     }
