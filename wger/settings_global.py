@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
+import os
 import re
 import sys
 
@@ -24,7 +25,6 @@ For a full list of options, visit:
 '''
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -211,17 +211,17 @@ TIME_ZONE = None
 
 # Restrict the available languages
 LANGUAGES = (
-            ('en', 'English'),
-            ('de', 'German'),
-            ('bg', 'Bulgarian'),
-            ('es', 'Spanish'),
-            ('ru', 'Russian'),
-            ('nl', 'Dutch'),
-            ('pt', 'Portuguese'),
-            ('el', 'Greek'),
-            ('cs', 'Czech'),
-            ('sv', 'Swedish'),
-            ('no', 'Norwegian'),
+    ('en', 'English'),
+    ('de', 'German'),
+    ('bg', 'Bulgarian'),
+    ('es', 'Spanish'),
+    ('ru', 'Russian'),
+    ('nl', 'Dutch'),
+    ('pt', 'Portuguese'),
+    ('el', 'Greek'),
+    ('cs', 'Czech'),
+    ('sv', 'Swedish'),
+    ('no', 'Norwegian'),
 )
 
 # Default language code for this installation.
@@ -282,21 +282,6 @@ CACHES = {
 #
 THUMBNAIL_ALIASES = {
     '': {
-        'micro': {'size': (30, 30)},
-        'micro_cropped': {'size': (30, 30), 'crop': 'smart'},
-
-        'thumbnail': {'size': (80, 80)},
-        'thumbnail_cropped': {'size': (80, 80), 'crop': 'smart'},
-
-        'small': {'size': (200, 200)},
-        'small_cropped': {'size': (200, 200), 'crop': 'smart'},
-
-        'medium': {'size': (400, 400)},
-        'medium_cropped': {'size': (400, 400), 'crop': 'smart'},
-
-        'large': {'size': (800, 800), 'quality': 90},
-        'large_cropped': {'size': (800, 800), 'crop': 'smart', 'quality': 90},
-
         'micro': {
             'size': (30, 30)
         },
@@ -366,27 +351,17 @@ else:
 #
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission',),
-    'PAGINATE_BY': 20,
-    'PAGINATE_BY_PARAM': 'limit',  # Allow client to override, using `?limit=xxx`.
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
                                 'rest_framework.filters.OrderingFilter'),
-    'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission', ),
     'PAGINATE_BY':20,
     'PAGINATE_BY_PARAM':
     'limit',  # Allow client to override, using `?limit=xxx`.
     'TEST_REQUEST_DEFAULT_FORMAT':
     'json',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
-                                'rest_framework.filters.OrderingFilter',)
 }
 
 
