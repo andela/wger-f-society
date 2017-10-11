@@ -29,6 +29,7 @@ from wger.config.models import LanguageConfig
 from wger.exercises.api.serializers import (
     MuscleSerializer,
     ExerciseSerializer,
+    ExerciseDetailSerializer,
     ExerciseImageSerializer,
     ExerciseCategorySerializer,
     EquipmentSerializer,
@@ -87,7 +88,6 @@ def search(request):
     q = request.GET.get('term', None)
     results = []
     json_response = {}
-
     if q:
         languages = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES,
                                         language_code=request.GET.get('language', None))
@@ -119,8 +119,28 @@ def search(request):
             }
             results.append(exercise_json)
         json_response['suggestions'] = results
-
     return Response(json_response)
+
+
+class ExerciseDetailViewSet(viewsets.ReadOnlyModelViewSet):
+    '''
+    Read-only API endpoint for getting all exercises
+    '''
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseDetailSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, CreateOnlyPermission)
+    ordering_fields = '__all__'
+    filter_fields = ('category',
+                     'creation_date',
+                     'description',
+                     'language',
+                     'muscles',
+                     'muscles_secondary',
+                     'status',
+                     'name',
+                     'equipment',
+                     'license',
+                     'license_author')
 
 
 class EquipmentViewSet(viewsets.ReadOnlyModelViewSet):
