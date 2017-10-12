@@ -18,7 +18,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 
 from wger.core.models import UserProfile
 
@@ -34,19 +34,22 @@ class Command(BaseCommand):
         parser.add_argument('email', type=str)
         parser.add_argument('password', type=str)
         parser.add_argument('creators_username', type=str)
+        parser.add_argument('creators_password', type=str)
 
-    def handle(self, *args, **options):
+    def handle(self, **options):
         # assert the creator exists
         creators_username = options['creators_username']
-        User_creator = User.objects.filter(username=creators_username)
-        if User_creator:
+        creators_password = options['creators_password']
+        User_creator = User.objects.get(username=creators_username)
+        creators_profile = UserProfile.objects.get(user=User_creator)
+        if User_creator and check_password(creators_password, creators_profile.user.password):
             # check username is already taken
             User_api = User.objects.filter(username=options['username'])
             if not User_api:
                 new_api_user = User.objects.create_user(
                     username=options['username'],
                     email=options['email'],
-                    password=make_password(options['password'])
+                    password=options['password']
                 )
                 try:
                     new_api_user.save()
@@ -59,4 +62,4 @@ class Command(BaseCommand):
             else:
                 raise CommandError('Username already taken')
         else:
-            raise CommandError('Creator do not exist')
+            raise CommandError('Creator do not exist or the password is wrong')
