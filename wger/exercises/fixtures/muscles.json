@@ -132,7 +132,7 @@
         "model": "exercises.muscle",
         "fields": {
             "is_front": false,
-            "name":"lateral deltoid"
+            "name":"Lateral deltoid"
         }
     },
     {
@@ -148,7 +148,7 @@
         "model": "exercises.muscle",
         "fields": {
             "is_front": false,
-            "name": "Posterious Deltoid"
+            "name": "Posterious deltoid"
         }
     },
     {
