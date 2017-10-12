@@ -16,7 +16,6 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
