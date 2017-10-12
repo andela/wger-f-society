@@ -32,7 +32,7 @@ class Command(BaseCommand):
         parser.add_argument('creators_username', type=str)
 
     def handle(self, **options):
-         # check if creator exist
+        # check if creator exist
         creators_username = options['creators_username']
         User_creator = User.objects.filter(username=creators_username)
         if User_creator:
