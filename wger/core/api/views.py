@@ -65,7 +65,7 @@ class UserRegistrationViewset(viewsets.ModelViewSet):
             try:
                 new_api_user.save()
             except IntegrityError as error:
-                response = {'message' : error}
+                response = {'message': error}
                 return Response(response, status=status.HTTP_400_BAD_REQUEST)
             new_api_user_profile = UserProfile.objects.get(user=new_api_user)
             new_api_user_profile.created_by = creators_profile.user.username
