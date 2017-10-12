@@ -16,7 +16,6 @@
 # along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
 from django.db import IntegrityError
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -61,7 +60,7 @@ class UserRegistrationViewset(viewsets.ModelViewSet):
             new_api_user = User.objects.create_user(
                 username=request.data.get('username'),
                 email=request.data.get('email', None),
-                password=make_password(request.data.get('password'))
+                password=request.data.get('password')
             )
             try:
                 new_api_user.save()
