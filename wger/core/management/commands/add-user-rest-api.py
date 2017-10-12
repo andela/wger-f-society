@@ -22,6 +22,7 @@ from django.contrib.auth.hashers import check_password
 
 from wger.core.models import UserProfile
 
+
 class Command(BaseCommand):
     '''
     A command that lets user registration
