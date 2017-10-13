@@ -103,7 +103,6 @@ BOWER_INSTALLED_APPS = (
     'sortablejs#1.4.x',
 )
 
-
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -181,13 +180,11 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-
 #
 # Email
 #
 EMAIL_SUBJECT_PREFIX = '[wger] '
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 
 #
 # Login
@@ -214,17 +211,17 @@ TIME_ZONE = None
 
 # Restrict the available languages
 LANGUAGES = (
-            ('en', 'English'),
-            ('de', 'German'),
-            ('bg', 'Bulgarian'),
-            ('es', 'Spanish'),
-            ('ru', 'Russian'),
-            ('nl', 'Dutch'),
-            ('pt', 'Portuguese'),
-            ('el', 'Greek'),
-            ('cs', 'Czech'),
-            ('sv', 'Swedish'),
-            ('no', 'Norwegian'),
+    ('en', 'English'),
+    ('de', 'German'),
+    ('bg', 'Bulgarian'),
+    ('es', 'Spanish'),
+    ('ru', 'Russian'),
+    ('nl', 'Dutch'),
+    ('pt', 'Portuguese'),
+    ('el', 'Greek'),
+    ('cs', 'Czech'),
+    ('sv', 'Swedish'),
+    ('no', 'Norwegian'),
 )
 
 # Default language code for this installation.
@@ -236,7 +233,6 @@ LOCALE_PATHS = (
 )
 
 FLAVOURS_STORAGE_BACKEND = 'session'
-
 
 #
 # Logging
@@ -265,12 +261,10 @@ LOGGING = {
     }
 }
 
-
 #
 # ReCaptcha
 #
 RECAPTCHA_USE_SSL = True
-
 
 #
 # Cache
@@ -282,7 +276,6 @@ CACHES = {
         'TIMEOUT': 30 * 24 * 60 * 60,  # Cache for a month
     }
 }
-
 
 #
 # Easy thumbnails
