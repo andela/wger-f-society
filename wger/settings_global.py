@@ -362,6 +362,6 @@ WGER_SETTINGS = {
     'ALLOW_GUEST_USERS': True,
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False,
-    'FITBIT_CLIENT_ID': None,
-    'FITBIT_CLIENT_SECRET': None
+    'FITBIT_CLIENT_ID': "228MYP",
+    'FITBIT_CLIENT_SECRET': "4edb4d96b57e19fca60578c37e56ac75"
 }
