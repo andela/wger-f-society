@@ -15,9 +15,12 @@
 # You should have received a copy of the GNU Affero General Public License
 
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 from wger.core.models import License
+from wger.settings_global import WGER_SETTINGS as settings
+import fitbit
 '''
 Abstract model classes
 '''
@@ -69,3 +72,18 @@ class AbstractSubmissionModel(models.Model):
     status = models.CharField(
         max_length=2, choices=STATUS, default=STATUS_PENDING, editable=False)
     '''Status of the submission, e.g. accepted or declined'''
+
+class FitbitUsers(models.Model):
+    user = models.ForeignKey(User,verbose_name = _('User'),
+    editable = False,on_delete=models.CASCADE)
+    access_token =  models.CharField(max_length = 100)
+    refresh_token = models.CharField(max_length = 100)
+    
+    def __init__(self,user):
+        self.user = user
+    
+    def authenticate(self):
+        key, secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
+        auth = fitbit.Fitbit(key, secret)
+        print(auth.authorize_token_url())
+
