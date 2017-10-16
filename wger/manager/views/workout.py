@@ -30,6 +30,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import DeleteView, UpdateView
 
 from wger.core.models import (
+    DaysOfWeek,
     RepetitionUnit,
     WeightUnit
 )
@@ -51,6 +52,7 @@ from wger.utils.generic_views import (
     WgerDeleteMixin
 )
 from wger.utils.helpers import make_token
+from wger.exercises.models import Exercise
 
 
 logger = logging.getLogger(__name__)
@@ -69,10 +71,28 @@ def import_workouts(request):
             file = request.FILES['myfile']
             data_json = json.load(file)
             print("><><><><", data_json)
-            obj_files = serializers.deserialize('json', json.dumps(data_json))
-            for obj in obj_files:
-                obj.save()
-            return HttpResponseRedirect(reverse('manager:workout:overview'))
+            for data in data_json:
+                workout = Workout(
+                    creation_date=data['creation_date'],
+                    user=request.user,
+                    comment=data['comment']
+                )
+                workout.save()
+                day = Day(
+                    training=workout,
+                    description=data['day_list']['description']
+                )
+                day.save()
+                for week_day in data['days_of_week']:
+                    day.day.add(
+                        DaysOfWeek.objects.filter(day_of_week=week_day).first()
+                    )
+                single_set = Set(exerciseday=day)
+                single_set.save()
+                for excercise in data['day_list']['sets']['exercises']:
+                    single_set.exercises.add(
+                        Exercise.objects.filter(name=excercise).first()
+                    )
         except Exception as error:
             print(":::::::::  ", error)
     return HttpResponseRedirect(reverse('manager:workout:overview'))
@@ -93,7 +113,8 @@ def export_workouts(request):
             days = Day.objects.filter(training=workout)
             if days:
                 for day in days:
-                    json_workout['days_of_week'] = [day_.day_of_week for day_ in day.day.all()]
+                    json_workout['days_of_week'] =\
+                     [day_.day_of_week for day_ in day.day.all()]
                     json_workout['day_list'] = {
                         "description" : day.description
                     }
