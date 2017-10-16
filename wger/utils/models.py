@@ -73,17 +73,34 @@ class AbstractSubmissionModel(models.Model):
         max_length=2, choices=STATUS, default=STATUS_PENDING, editable=False)
     '''Status of the submission, e.g. accepted or declined'''
 
-class FitbitUsers(models.Model):
+class FitbitUser(models.Model):
     user = models.ForeignKey(User,verbose_name = _('User'),
     editable = False,on_delete=models.CASCADE)
+    fitbit_id = models.CharField(max_length = 10)
     access_token =  models.CharField(max_length = 100)
     refresh_token = models.CharField(max_length = 100)
     
-    def __init__(self,user):
-        self.user = user
-    
-    def authenticate(self):
+    def authenticate(self,user):
         key, secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
-        auth = fitbit.Fitbit(key, secret)
-        print(auth.authorize_token_url())
+        auth = fitbit.FitbitOauth2Client(key, secret)
+        self.user = user
+        return auth.authorize_token_url()
+       
+    def completeAuth(self,user, code):
+        key, secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
+        auth = fitbit.FitbitOauth2Client(key, secret)
+        data = auth.fetch_access_token(code)
+        self.access_token = data['access_token']
+        self.refresh_token = data['refresh_token']
+        self.fitbit_id = data['user_id']
+        self.save()
+        self.fitbit = fitbit.Fitbit(key, secret,
+                                    access_token = self.access_token,
+                                    refresh_token = self.refresh_token)
+        return self
+
+    def getWeightInfo(self,start = None,end = None):
+        body_weight = self.fitbit.get_bodyweight()
+        clean_data = [{'date':data['date'],'weight':data['weight']} for data in body_weight['weight']]
+        return clean_data
 
