@@ -20,7 +20,7 @@ import datetime
 import json
 
 from django.core import serializers
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -38,7 +38,8 @@ from wger.manager.models import (
     WorkoutSession,
     WorkoutLog,
     Schedule,
-    Day
+    Day,
+    Set
 )
 from wger.manager.forms import (
     WorkoutForm,
@@ -67,9 +68,11 @@ def import_workouts(request):
         try:
             file = request.FILES['myfile']
             data_json = json.load(file)
+            print("><><><><", data_json)
             obj_files = serializers.deserialize('json', json.dumps(data_json))
             for obj in obj_files:
                 obj.save()
+            return HttpResponseRedirect(reverse('manager:workout:overview'))
         except Exception as error:
             print(":::::::::  ", error)
     return HttpResponseRedirect(reverse('manager:workout:overview'))
@@ -111,14 +114,40 @@ def export_workouts(request):
     Exports users Workout
     '''
     workouts = Workout.objects.filter(user=request.user)
-    json_workout = serializers.serialize('json', workouts)
+    json_workouts = []
+    for workout in workouts:
+        json_workout = {
+            "creation_date" : workout.creation_date.strftime('%d/%m/%Y'),
+            "comment" : workout.comment
+        }
+        days = Day.objects.filter(training=workout)
+        if days:
+            for day in days:
+                json_workout['days_of_week'] = [day_.day_of_week for day_ in day.day.all()]
+                json_workout['day_list'] = {
+                    "description" : day.description
+                }
+                sets = Set.objects.filter(exerciseday=day.id)
+                if sets:
+                    # for single_set in sets:
+                    json_workout['day_list']['sets'] = [{
+                        'exercises' : [{
+                            "name": exercise.name,
+                            "description": exercise.description
+                            } for exercise in set_.exercises.all()]
+                    } for set_ in sets.all()]
+                else:
+                    json_workout['day_list']['sets'] = []
+        else:
+            json_workout['day_list'] = []
+    json_workouts.append(json_workout)
     try:
-        response = HttpResponse(json_workout, content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="json_workout.json"'
+        response = HttpResponse(json.dumps(json_workouts), content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="json_workouts.json"'
 
         return response
     except Exception as e:
-        return HttpResponseRedirect(reverse('manager:workout:overview', e))
+        return HttpResponseRedirect(reverse('manager:workout:overview'))
 
 @login_required
 def overview(request):
