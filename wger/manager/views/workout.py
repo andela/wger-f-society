@@ -67,16 +67,13 @@ def export_workouts(request):
     workouts = Workout.objects.filter(user=request.user)
     json_workout = serializers.serialize('json', workouts)
     try:
-        with open('json_workout.json', 'w') as filedata:
-            json.dump(json_workout, filedata)
-        print(">>>>", filedata.name)
+        response = HttpResponse(json_workout, content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="json_workout.json"'
+
+        return response
     except Exception as e:
         return HttpResponseRedirect(reverse('manager:workout:overview', e))
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="json_workout.json"'
-
-    return response
 
 
 
