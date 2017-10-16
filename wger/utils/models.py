@@ -80,27 +80,42 @@ class FitbitUser(models.Model):
     access_token =  models.CharField(max_length = 100)
     refresh_token = models.CharField(max_length = 100)
     
-    def authenticate(self,user):
-        key, secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
-        auth = fitbit.FitbitOauth2Client(key, secret)
+    def authenticate(self, user):
         self.user = user
+        self.key, self.secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
+        is_auth = self.isAuthenticated()
+        if is_auth:
+            self.access_token = is_auth.access_token
+            self.refresh_token = is_auth.refresh_token
+            self.authenticated = True
+            return self.authenticated
+
+        auth = fitbit.FitbitOauth2Client(self.key, self.secret)
         return auth.authorize_token_url()
+
+    def isAuthenticated(self):
+        is_auth = FitbitUser.objects.filter(user=self.user).first()
+        return is_auth
        
-    def completeAuth(self,user, code):
-        key, secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
-        auth = fitbit.FitbitOauth2Client(key, secret)
+    def completeAuth(self, code):
+        auth = fitbit.FitbitOauth2Client(self.key, self.secret)
         data = auth.fetch_access_token(code)
         self.access_token = data['access_token']
         self.refresh_token = data['refresh_token']
         self.fitbit_id = data['user_id']
+        self.authenticated = True
         self.save()
-        self.fitbit = fitbit.Fitbit(key, secret,
-                                    access_token = self.access_token,
-                                    refresh_token = self.refresh_token)
         return self
 
+    def initFitbit(self):
+        fitbit_instance = fitbit.Fitbit(self.key, self.secret,
+                               access_token=self.access_token,
+                               refresh_token=self.refresh_token)
+        return fitbit_instance
+
     def getWeightInfo(self,start = None,end = None):
-        body_weight = self.fitbit.get_bodyweight()
+        fitbit_instance = self.initFitbit()
+        body_weight = fitbit_instance.get_bodyweight()
         clean_data = [{'date':data['date'],'weight':data['weight']} for data in body_weight['weight']]
         return clean_data
 
