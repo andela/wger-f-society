@@ -18,7 +18,7 @@ import logging
 import csv
 import datetime
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -42,6 +42,9 @@ from wger.weight.models import WeightEntry
 from wger.weight import helpers
 from wger.utils.helpers import check_access
 from wger.utils.generic_views import WgerFormMixin
+
+from wger.utils.models import FitbitUser
+
 
 logger = logging.getLogger(__name__)
 
@@ -153,7 +156,23 @@ def overview(request, username=None):
                                      'month': max_date.month,
                                      'day': max_date.day}
 
-    last_weight_entries = helpers.get_last_entries(user)
+    fitbit = request.GET.get('fitbit')
+    last_weight_entries=[]
+    if fitbit:
+        fitbituser = FitbitUser()
+        result = fitbituser.authenticate(request.user)
+        if result:
+            last_weight_entries = fitbituser.getWeightInfo()
+            print(last_weight_entries)
+            template_data['is_owner'] = is_owner
+            template_data['owner_user'] = user
+            template_data['show_shariff'] = is_owner
+            template_data['last_five_weight_entries_details'] = last_weight_entries
+        else:
+            return redirect(fitbituser.getUrl()[0])
+    
+    else:
+        last_weight_entries = helpers.get_last_entries(user)
 
     template_data['is_owner'] = is_owner
     template_data['owner_user'] = user
