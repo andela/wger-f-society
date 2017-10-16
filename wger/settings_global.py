@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
+import os
 import re
 import sys
 
@@ -24,7 +25,6 @@ For a full list of options, visit:
 '''
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -192,6 +192,8 @@ EMAIL_SUBJECT_PREFIX = '[wger] '
 LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = '/'
 
+
+#
 # Internationalization
 #
 USE_TZ = True
@@ -209,17 +211,17 @@ TIME_ZONE = None
 
 # Restrict the available languages
 LANGUAGES = (
-            ('en', 'English'),
-            ('de', 'German'),
-            ('bg', 'Bulgarian'),
-            ('es', 'Spanish'),
-            ('ru', 'Russian'),
-            ('nl', 'Dutch'),
-            ('pt', 'Portuguese'),
-            ('el', 'Greek'),
-            ('cs', 'Czech'),
-            ('sv', 'Swedish'),
-            ('no', 'Norwegian'),
+    ('en', 'English'),
+    ('de', 'German'),
+    ('bg', 'Bulgarian'),
+    ('es', 'Spanish'),
+    ('ru', 'Russian'),
+    ('nl', 'Dutch'),
+    ('pt', 'Portuguese'),
+    ('el', 'Greek'),
+    ('cs', 'Czech'),
+    ('sv', 'Swedish'),
+    ('no', 'Norwegian'),
 )
 
 # Default language code for this installation.
@@ -269,7 +271,7 @@ RECAPTCHA_USE_SSL = True
 #
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'wger-cache',
         'TIMEOUT': 30 * 24 * 60 * 60,  # Cache for a month
     }
@@ -320,6 +322,7 @@ THUMBNAIL_ALIASES = {
     },
 }
 
+
 #
 # Django compressor
 #
@@ -328,6 +331,10 @@ STATIC_URL = '/static/'
 
 # The default is not DEBUG, override if needed
 # COMPRESS_ENABLED = True
+COMPRESS_CSS_FILTERS = (
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.rCSSMinFilter'
+)
 
 COMPRESS_CSS_FILTERS = ('compressor.filters.css_default.CssAbsoluteFilter',
                         'compressor.filters.cssmin.rCSSMinFilter')
@@ -343,20 +350,20 @@ else:
 # Django Rest Framework
 #
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission', ),
-    'PAGINATE_BY':
-    20,
+    'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
+                                'rest_framework.filters.OrderingFilter'),
+    'PAGINATE_BY': 20,
     'PAGINATE_BY_PARAM':
     'limit',  # Allow client to override, using `?limit=xxx`.
     'TEST_REQUEST_DEFAULT_FORMAT':
     'json',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication', ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework.filters.DjangoFilterBackend',
-        'rest_framework.filters.OrderingFilter', )
 }
+
 
 #
 # CORS headers: allow all hosts to access the API
@@ -367,7 +374,9 @@ CORS_URLS_REGEX = r'^/api/.*$'
 #
 # Ignore these URLs if they cause 404
 #
-IGNORABLE_404_URLS = (re.compile(r'^/favicon\.ico$'), )
+IGNORABLE_404_URLS = (
+    re.compile(r'^/favicon\.ico$'),
+)
 
 #
 # Application specific configuration options
