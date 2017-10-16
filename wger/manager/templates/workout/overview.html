@@ -37,13 +37,12 @@
     {% trans "Export workout" %}
 </a>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" action="{% url 'manager:workout:import' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="myfile">
-    <a href="" class="btn btn-primary btn-sm">
+    <button type="submit" class="btn btn-primary btn-sm">
     {% trans "import workout" %}
-</a>
+    </button>
 </form>
 
-</select>
 {% endblock %}
