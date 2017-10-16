@@ -29,6 +29,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as django_login
 from django.template.loader import render_to_string
+from wger.utils.models import FitbitUser
 
 
 from wger.core.forms import FeedbackRegisteredForm, FeedbackAnonymousForm
@@ -90,6 +91,13 @@ def dashboard(request):
     '''
 
     template_data = {}
+
+    fitbit = request.GET.get('code')
+
+    if fitbit:
+        fitbituser = FitbitUser()
+        fitbituser.authenticate(request.user)
+        fitbituser.completeAuth(fitbit)
 
     # Load the last workout, either from a schedule or a 'regular' one
     (current_workout, schedule) = Schedule.objects.get_current_workout(request.user)
