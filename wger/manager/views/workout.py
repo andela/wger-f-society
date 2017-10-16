@@ -84,31 +84,34 @@ def export_workouts(request):
     '''
     workouts = Workout.objects.filter(user=request.user)
     json_workouts = []
-    for workout in workouts:
-        json_workout = {
-            "creation_date" : workout.creation_date.strftime('%d/%m/%Y'),
-            "comment" : workout.comment
-        }
-        days = Day.objects.filter(training=workout)
-        if days:
-            for day in days:
-                json_workout['days_of_week'] = [day_.day_of_week for day_ in day.day.all()]
-                json_workout['day_list'] = {
-                    "description" : day.description
-                }
-                sets = Set.objects.filter(exerciseday=day.id)
-                if sets:
-                    # for single_set in sets:
-                    json_workout['day_list']['sets'] = [{
-                        'exercises' : [{
-                            "name": exercise.name,
-                            "description": exercise.description
-                            } for exercise in set_.exercises.all()]
-                    } for set_ in sets.all()]
-                else:
-                    json_workout['day_list']['sets'] = []
-        else:
-            json_workout['day_list'] = []
+    if workouts:
+        for workout in workouts:
+            json_workout = {
+                "creation_date" : workout.creation_date.strftime('%d/%m/%Y'),
+                "comment" : workout.comment
+            }
+            days = Day.objects.filter(training=workout)
+            if days:
+                for day in days:
+                    json_workout['days_of_week'] = [day_.day_of_week for day_ in day.day.all()]
+                    json_workout['day_list'] = {
+                        "description" : day.description
+                    }
+                    sets = Set.objects.filter(exerciseday=day.id)
+                    if sets:
+                        # for single_set in sets:
+                        json_workout['day_list']['sets'] = [{
+                            'exercises' : [{
+                                "name": exercise.name,
+                                "description": exercise.description
+                                } for exercise in set_.exercises.all()]
+                        } for set_ in sets.all()]
+                    else:
+                        json_workout['day_list']['sets'] = []
+            else:
+                json_workout['day_list'] = []
+    else:
+        json_workout = {}
     json_workouts.append(json_workout)
     try:
         response = HttpResponse(json.dumps(json_workouts), content_type='text/csv')
