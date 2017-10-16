@@ -17,9 +17,11 @@
 import logging
 import uuid
 import datetime
+import json
 
+from django.core import serializers
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.utils.translation import ugettext_lazy, ugettext as _
@@ -56,6 +58,28 @@ logger = logging.getLogger(__name__)
 # ************************
 # Workout functions
 # ************************
+
+@login_required
+def export_workouts(request):
+    '''
+    Exports users Workout
+    '''
+    workouts = Workout.objects.filter(user=request.user)
+    json_workout = serializers.serialize('json', workouts)
+    try:
+        with open('json_workout.json', 'w') as filedata:
+            json.dump(json_workout, filedata)
+        print(">>>>", filedata.name)
+    except Exception as e:
+        return HttpResponseRedirect(reverse('manager:workout:overview', e))
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="json_workout.json"'
+
+    return response
+
+
+
 @login_required
 def overview(request):
     '''
