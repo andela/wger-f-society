@@ -58,6 +58,21 @@ logger = logging.getLogger(__name__)
 # ************************
 # Workout functions
 # ************************
+@login_required
+def import_workouts(request):
+    '''
+        import users Workout
+    '''
+    if request.method == 'POST':
+        try:
+            file = request.FILES['myfile']
+            data_json = json.load(file)
+            obj_files = serializers.deserialize('json', json.dumps(data_json))
+            for obj in obj_files:
+                obj.save()
+        except Exception as error:
+            print(":::::::::  ", error)
+    return HttpResponseRedirect(reverse('manager:workout:overview'))
 
 @login_required
 def export_workouts(request):
@@ -74,9 +89,6 @@ def export_workouts(request):
     except Exception as e:
         return HttpResponseRedirect(reverse('manager:workout:overview', e))
 
-
-
-
 @login_required
 def overview(request):
     '''
@@ -91,6 +103,8 @@ def overview(request):
     template_data['current_workout'] = current_workout
 
     return render(request, 'workout/overview.html', template_data)
+
+
 
 
 def view(request, pk):
