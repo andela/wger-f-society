@@ -20,6 +20,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from wger.core.models import License
 from wger.settings_global import WGER_SETTINGS as settings
+from wger.weight.models import WeightEntry
+from django.utils.dateparse import parse_date
 import fitbit
 '''
 Abstract model classes
@@ -114,12 +116,28 @@ class FitbitUser(models.Model):
     def initFitbit(self):
         fitbit_instance = fitbit.Fitbit(self.key, self.secret,
                                access_token=self.access_token,
-                               refresh_token=self.refresh_token)
+                               refresh_token=self.refresh_token,
+                               system = 'en_UK')
         return fitbit_instance
-
+    
     def getWeightInfo(self,start = None,end = None):
+        vall = 10
         fitbit_instance = self.initFitbit()
-        body_weight = fitbit_instance.get_bodyweight()
-        clean_data = [{'date':data['date'],'weight':data['weight']} for data in body_weight['weight']]
+        body_weight = fitbit_instance.get_bodyweight(period='1m')
+        clean_data = []
+        prev_entry = None
+        for data in body_weight['weight']:
+            weight_obj = WeightEntry()
+            weight_diff = 0
+            day_diff = 0
+            weight_obj.date = data['date']
+            weight_obj.weight = data['weight']
+
+            if prev_entry:
+                weight_diff = weight_obj.weight - prev_entry.weight
+                day_diff = (parse_date(weight_obj.date) - parse_date(prev_entry.date)).days
+            
+            prev_entry = weight_obj
+            clean_data.append((weight_obj, int(weight_diff), day_diff))
         return clean_data
 
