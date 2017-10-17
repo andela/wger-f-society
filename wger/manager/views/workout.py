@@ -103,6 +103,7 @@ def import_workouts(request):
             print(":::::::::  ", error)
     return HttpResponseRedirect(reverse('manager:workout:overview'))
 
+
 @login_required
 def export_workouts(request):
     '''
@@ -114,26 +115,26 @@ def export_workouts(request):
         all_workouts = []
         for workout in workouts:
             json_workout = {
-                "creation_date" : workout.creation_date.strftime('%d/%m/%Y'),
-                "comment" : workout.comment
+                "creation_date": workout.creation_date.strftime('%d/%m/%Y'),
+                "comment": workout.comment
             }
             all_workouts.append(json_workout)
             days = Day.objects.filter(training=workout)
             if days:
                 for day in days:
                     json_workout['days_of_week'] =\
-                     [day_.day_of_week for day_ in day.day.all()]
+                        [day_.day_of_week for day_ in day.day.all()]
                     json_workout['day_list'] = {
-                        "description" : day.description
+                        "description": day.description
                     }
                     sets = Set.objects.filter(exerciseday=day.id)
                     if sets:
                         # for single_set in sets:
                         json_workout['day_list']['sets'] = [{
-                            'exercises' : [{
+                            'exercises': [{
                                 "name": exercise.name,
                                 "description": exercise.description
-                                } for exercise in set_.exercises.all()]
+                            } for exercise in set_.exercises.all()]
                         } for set_ in sets.all()]
                     else:
                         json_workout['day_list']['sets'] = []
@@ -150,6 +151,7 @@ def export_workouts(request):
     except Exception as e:
         return HttpResponseRedirect(reverse('manager:workout:overview'))
 
+
 @login_required
 def overview(request):
     '''
@@ -164,8 +166,6 @@ def overview(request):
     template_data['current_workout'] = current_workout
 
     return render(request, 'workout/overview.html', template_data)
-
-
 
 
 def view(request, pk):
