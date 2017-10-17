@@ -13,7 +13,7 @@
 <script>
 $(document).ready(function() {
     //Prefetch the background images
-    {% for muscle in muscle_list|first %}
+    {% for muscle in muscle_list %}
         wgerPrefetchImages(['/static/images/muscles/main/muscle-' + {{muscle.id}} + '.svg']);
     {% endfor %}
     wgerPrefetchImages(['/static/images/muscles/muscular_system_back.svg']);
