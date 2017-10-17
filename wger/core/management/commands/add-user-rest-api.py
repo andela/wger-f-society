@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 *-*
 
 # This file is part of wger Workout Manager.
 #
@@ -13,7 +13,6 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public License
-# along with Workout Manager.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.core.management.base import BaseCommand, CommandError
 from django.contrib.auth.models import User
@@ -55,11 +54,7 @@ class Command(BaseCommand):
                 try:
                     new_api_user.save()
                     new_api_user_profile = UserProfile.objects.get(user=new_api_user)
-<<<<<<< HEAD
                     new_api_user_profile.created_by = creators_profile
-=======
-                    new_api_user_profile.created_by = creators_username
->>>>>>> 1493a6291fa7f19e068e53f7cfb1fb8d5959176e
                     new_api_user_profile.save()
                     self.stdout.write("New app user created successfully")
                 except IntegrityError as error:
