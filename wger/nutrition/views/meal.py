@@ -25,6 +25,7 @@ from django.views.generic import CreateView, UpdateView
 
 from wger.nutrition.models import NutritionPlan, Meal
 from wger.utils.generic_views import WgerFormMixin
+from wger.nutrition.forms import MealForm
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +40,8 @@ class MealCreateView(WgerFormMixin, CreateView):
     '''
 
     model = Meal
-    fields = '__all__'
+    form_class = MealForm
+    template_name = 'meal/create.html'
     title = ugettext_lazy('Add new meal')
     owner_object = {'pk': 'plan_pk', 'class': NutritionPlan}
 
