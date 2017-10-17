@@ -68,7 +68,11 @@ class UserRegistrationViewset(viewsets.ModelViewSet):
                 response = {'message': error}
                 return Response(response, status=status.HTTP_400_BAD_REQUEST)
             new_api_user_profile = UserProfile.objects.get(user=new_api_user)
+<<<<<<< HEAD
             new_api_user_profile.created_by = creators_profile
+=======
+            new_api_user_profile.created_by = creators_profile.user.username
+>>>>>>> 1493a6291fa7f19e068e53f7cfb1fb8d5959176e
             new_api_user_profile.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

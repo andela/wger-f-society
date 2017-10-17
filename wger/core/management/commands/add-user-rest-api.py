@@ -55,7 +55,11 @@ class Command(BaseCommand):
                 try:
                     new_api_user.save()
                     new_api_user_profile = UserProfile.objects.get(user=new_api_user)
+<<<<<<< HEAD
                     new_api_user_profile.created_by = creators_profile
+=======
+                    new_api_user_profile.created_by = creators_username
+>>>>>>> 1493a6291fa7f19e068e53f7cfb1fb8d5959176e
                     new_api_user_profile.save()
                     self.stdout.write("New app user created successfully")
                 except IntegrityError as error:
