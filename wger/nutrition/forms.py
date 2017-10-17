@@ -20,8 +20,8 @@ from django import forms
 from django.utils.translation import ugettext as _
 from wger.core.models import UserProfile
 
-from wger.nutrition.models import (IngredientWeightUnit, Ingredient, MealItem)
-from wger.utils.widgets import Html5NumberInput
+from wger.nutrition.models import (IngredientWeightUnit, Ingredient, MealItem, Meal)
+from wger.utils.widgets import Html5NumberInput, Html5TimeInput
 
 logger = logging.getLogger(__name__)
 
