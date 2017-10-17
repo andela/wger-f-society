@@ -164,10 +164,7 @@ def overview(request, username=None):
         if result:
             last_weight_entries = fitbituser.getWeightInfo()
             print(last_weight_entries)
-            template_data['is_owner'] = is_owner
-            template_data['owner_user'] = user
-            template_data['show_shariff'] = is_owner
-            template_data['last_five_weight_entries_details'] = last_weight_entries
+            
         else:
             return redirect(fitbituser.getUrl()[0])
     
