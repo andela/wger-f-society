@@ -70,7 +70,6 @@ def import_workouts(request):
         try:
             file = request.FILES['myfile']
             data_json = json.load(file)
-            print("><><><><", data_json)
             for data in data_json:
                 workout = Workout(
                     creation_date=data['creation_date'],
@@ -87,12 +86,16 @@ def import_workouts(request):
                     day.day.add(
                         DaysOfWeek.objects.filter(day_of_week=week_day).first()
                     )
+
                 single_set = Set(exerciseday=day)
                 single_set.save()
-                for excercise in data['day_list']['sets']['exercises']:
-                    single_set.exercises.add(
-                        Exercise.objects.filter(name=excercise).first()
-                    )
+                for exercise in data['day_list']['sets']:
+                    for exercise_ in exercise['exercises']:
+                        single_set.exercises.add(
+                            Exercise.objects.filter(
+                                name=exercise_['name'],
+                                description=exercise_['description']).first()
+                        )
         except Exception as error:
             print(":::::::::  ", error)
     return HttpResponseRedirect(reverse('manager:workout:overview'))
