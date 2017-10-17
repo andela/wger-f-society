@@ -107,37 +107,6 @@ def export_workouts(request):
     Exports users Workout
     '''
     workouts = Workout.objects.filter(user=request.user)
-    json_workout = serializers.serialize('json', workouts)
-    try:
-        response = HttpResponse(json_workout, content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="json_workout.json"'
-
-        return response
-    except Exception as e:
-        return HttpResponseRedirect(reverse('manager:workout:overview', e))
-
-@login_required
-def import_workouts(request):
-    '''
-        import users Workout
-    '''
-    if request.method == 'POST':
-        try:
-            file = request.FILES['myfile']
-            data_json = json.load(file)
-            obj_files = serializers.deserialize('json', json.dumps(data_json))
-            for obj in obj_files:
-                obj.save()
-        except Exception as error:
-            print(":::::::::  ", error)
-    return HttpResponseRedirect(reverse('manager:workout:overview'))
-
-@login_required
-def export_workouts(request):
-    '''
-    Exports users Workout
-    '''
-    workouts = Workout.objects.filter(user=request.user)
     json_workouts = []
     if workouts:
         all_workouts = []
