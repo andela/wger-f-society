@@ -61,36 +61,6 @@ logger = logging.getLogger(__name__)
 # ************************
 # Workout functions
 # ************************
-@login_required
-def import_workouts(request):
-    '''
-        import users Workout
-    '''
-    if request.method == 'POST':
-        try:
-            file = request.FILES['myfile']
-            data_json = json.load(file)
-            obj_files = serializers.deserialize('json', json.dumps(data_json))
-            for obj in obj_files:
-                obj.save()
-        except Exception as error:
-            print(":::::::::  ", error)
-    return HttpResponseRedirect(reverse('manager:workout:overview'))
-
-@login_required
-def export_workouts(request):
-    '''
-    Exports users Workout
-    '''
-    workouts = Workout.objects.filter(user=request.user)
-    json_workout = serializers.serialize('json', workouts)
-    try:
-        response = HttpResponse(json_workout, content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="json_workout.json"'
-
-        return response
-    except Exception as e:
-        return HttpResponseRedirect(reverse('manager:workout:overview', e))
 
 @login_required
 def import_workouts(request):
@@ -132,6 +102,7 @@ def import_workouts(request):
             print(":::::::::  ", error)
     return HttpResponseRedirect(reverse('manager:workout:overview'))
 
+
 @login_required
 def export_workouts(request):
     '''
@@ -143,26 +114,26 @@ def export_workouts(request):
         all_workouts = []
         for workout in workouts:
             json_workout = {
-                "creation_date" : workout.creation_date.strftime('%d/%m/%Y'),
-                "comment" : workout.comment
+                "creation_date": workout.creation_date.strftime('%d/%m/%Y'),
+                "comment": workout.comment
             }
             all_workouts.append(json_workout)
             days = Day.objects.filter(training=workout)
             if days:
                 for day in days:
                     json_workout['days_of_week'] =\
-                     [day_.day_of_week for day_ in day.day.all()]
+                        [day_.day_of_week for day_ in day.day.all()]
                     json_workout['day_list'] = {
-                        "description" : day.description
+                        "description": day.description
                     }
                     sets = Set.objects.filter(exerciseday=day.id)
                     if sets:
                         # for single_set in sets:
                         json_workout['day_list']['sets'] = [{
-                            'exercises' : [{
+                            'exercises': [{
                                 "name": exercise.name,
                                 "description": exercise.description
-                                } for exercise in set_.exercises.all()]
+                            } for exercise in set_.exercises.all()]
                         } for set_ in sets.all()]
                     else:
                         json_workout['day_list']['sets'] = []
@@ -179,6 +150,7 @@ def export_workouts(request):
     except Exception as e:
         return HttpResponseRedirect(reverse('manager:workout:overview'))
 
+
 @login_required
 def overview(request):
     '''
@@ -193,8 +165,6 @@ def overview(request):
     template_data['current_workout'] = current_workout
 
     return render(request, 'workout/overview.html', template_data)
-
-
 
 
 def view(request, pk):
