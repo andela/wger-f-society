@@ -51,6 +51,4 @@ class ApiUserTestCase(WorkoutManagerTestCase):
             content_type='application/json'
         )
 
-        sam = User.objects.get(username='samuel')
-        sam_profile = UserProfile.objects.get(user=sam)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
