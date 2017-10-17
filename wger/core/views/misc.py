@@ -17,7 +17,7 @@
 import logging
 
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -97,7 +97,9 @@ def dashboard(request):
     if fitbit:
         fitbituser = FitbitUser()
         fitbituser.authenticate(request.user)
+        print(fitbit)
         fitbituser.completeAuth(fitbit)
+        return HttpResponseRedirect(reverse('weight:overview', kwargs={'username': request.user.username})+ "?fitbit=True")
 
     # Load the last workout, either from a schedule or a 'regular' one
     (current_workout, schedule) = Schedule.objects.get_current_workout(request.user)
