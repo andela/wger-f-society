@@ -26,6 +26,7 @@ from wger.utils.cache import delete_template_fragment_cache
 from wger.exercises.models import ExerciseImage
 from wger.core.models import Language
 
+
 @receiver(post_delete, sender=ExerciseImage)
 def delete_exercise_image_on_delete(sender, instance, **kwargs):
     '''
@@ -36,18 +37,19 @@ def delete_exercise_image_on_delete(sender, instance, **kwargs):
     thumbnailer.delete_thumbnails()
     instance.image.delete(save=False)
 
+
 @receiver([post_delete, post_save], sender=Muscle)
 def delete_muscle_cache(sender, instance, **kwargs):
     '''
-    Delete the image, along with its thumbnails, from the disk
+    Delete the cache when delete and save actiona are performed on the
+    muscle model.
     '''
     for language in Language.objects.all():
         delete_template_fragment_cache('muscle-overview', language.id)
         delete_template_fragment_cache('exercise-overview', language.id)
-        delete_template_fragment_cache('exercise-overview-mobile',
-                                    language.id)
+        delete_template_fragment_cache(
+            'exercise-overview-mobile', language.id)
         delete_template_fragment_cache('equipment-overview', language.id)
-
 
 
 @receiver(pre_save, sender=ExerciseImage)
