@@ -172,8 +172,7 @@ class FitbitUser(models.Model):
                 clean_data.append((weight_obj, int(weight_diff), day_diff))
         except HTTPUnauthorized:
             if self.re_auth():
-                self.getWeightInfo(start,end)
+                self.getWeightInfo(start, end)
         except:
             return clean_data
         return clean_data
-
