@@ -99,7 +99,7 @@ def dashboard(request):
         fitbituser.authenticate(request.user)
         print(fitbit)
         fitbituser.completeAuth(fitbit)
-        return HttpResponseRedirect(reverse('weight:overview', kwargs={'username': request.user.username} )+ "?fitbit=true")
+        return HttpResponseRedirect(reverse('weight:overview', kwargs={'username': request.user.username}) + "?fitbit=true")
 
     # Load the last workout, either from a schedule or a 'regular' one
     (current_workout, schedule) = Schedule.objects.get_current_workout(request.user)

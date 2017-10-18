@@ -90,7 +90,7 @@ class FitbitUser(models.Model):
         self.key, self.secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
         is_auth = self.isAuthenticated()
 
-        if is_auth:    
+        if is_auth:
             self.access_token = is_auth.access_token
             self.refresh_token = is_auth.refresh_token
             self.authenticated = True
