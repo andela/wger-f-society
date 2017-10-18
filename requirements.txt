@@ -55,5 +55,4 @@ sphinxcontrib-websupport==1.0.1
 sqlparse==0.2.4
 urllib3==1.22
 webencodings==0.5.1
--e git+https://github.com/andela/wger-f-society.git@b0d8d48daf02601121b85f8b0e08d125433f0e5e#egg=wger
 whitenoise==3.3.1
