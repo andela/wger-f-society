@@ -23,6 +23,8 @@ from wger.settings_global import WGER_SETTINGS as settings
 from wger.weight.models import WeightEntry
 from django.utils.dateparse import parse_date
 import fitbit
+from fitbit.exceptions import HTTPUnauthorized
+from requests.exceptions import ConnectionError
 '''
 Abstract model classes
 '''
@@ -88,17 +90,17 @@ class FitbitUser(models.Model):
         is_auth = self.isAuthenticated()
        
         if is_auth:
+            auth = fitbit.FitbitOauth2Client(self.key,
+                                             self.secret,
+                                             access_token = is_auth.access_token,
+                                             refresh_token = is_auth.refresh_token,
+                                             refresh_cb=self.refresh)
+            #data = auth.refresh_token()
+            #is_auth.access_token = data['access_token']
+            #is_auth.save()
             self.access_token = is_auth.access_token
             self.refresh_token = is_auth.refresh_token
             self.authenticated = True
-            auth = fitbit.FitbitOauth2Client(self.key,
-                                             self.secret,
-                                             access_token = self.access_token,
-                                             refresh_token = self.refresh_token,
-                                             refresh_cb=self.refresh)
-            #data = auth.refresh_token()
-            #self.access_token = data['access_token']
-            #self.save()
             return self.authenticated
         
         return False
@@ -130,25 +132,47 @@ class FitbitUser(models.Model):
                                refresh_token=self.refresh_token,
                                system = 'en_UK')
         return fitbit_instance
+
+    def re_auth(self):
+        is_auth = self.isAuthenticated
+        if is_auth:
+            auth = fitbit.FitbitOauth2Client(self.key,
+                                             self.secret,
+                                             access_token=is_auth.access_token,
+                                             refresh_token=is_auth.refresh_token,
+                                             refresh_cb=self.refresh)
+            data = auth.refresh_token()
+            is_auth.access_token = data['access_token']
+            is_auth.refresh_token = data['refresh_token']
+            is_auth.save()
+            self.access_token = is_auth.access_token
+            self.refresh_token = is_auth.refresh_token
+            return True
+        return False
     
     def getWeightInfo(self,start = None,end = None):
-        vall = 10
-        fitbit_instance = self.initFitbit()
-        body_weight = fitbit_instance.get_bodyweight(period='1m')
-        clean_data = []
-        prev_entry = None
-        for data in body_weight['weight']:
-            weight_obj = WeightEntry()
-            weight_diff = 0
-            day_diff = 0
-            weight_obj.date = data['date']
-            weight_obj.weight = data['weight']
+        try:
+            fitbit_instance = self.initFitbit()
+            body_weight = fitbit_instance.get_bodyweight(period='1m')
+            clean_data = []
+            prev_entry = None
+            for data in body_weight['weight']:
+                weight_obj = WeightEntry()
+                weight_diff = 0
+                day_diff = 0
+                weight_obj.date = data['date']
+                weight_obj.weight = data['weight']
 
-            if prev_entry:
-                weight_diff = weight_obj.weight - prev_entry.weight
-                day_diff = (parse_date(weight_obj.date) - parse_date(prev_entry.date)).days
-            
-            prev_entry = weight_obj
-            clean_data.append((weight_obj, int(weight_diff), day_diff))
+                if prev_entry:
+                    weight_diff = weight_obj.weight - prev_entry.weight
+                    day_diff = (parse_date(weight_obj.date) - parse_date(prev_entry.date)).days
+                
+                prev_entry = weight_obj
+                clean_data.append((weight_obj, int(weight_diff), day_diff))
+        except HTTPUnauthorized:
+            if self.re_auth():
+                self.getWeightInfo(start,end)
+        except:
+            return clean_data
         return clean_data
 
