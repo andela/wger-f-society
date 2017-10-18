@@ -362,6 +362,6 @@ WGER_SETTINGS = {
     'ALLOW_GUEST_USERS': True,
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False,
-    'FITBIT_CLIENT_ID': "228MYP",
-    'FITBIT_CLIENT_SECRET': "4edb4d96b57e19fca60578c37e56ac75"
+    'FITBIT_CLIENT_ID': os.getenv('fitbit_client_id'),
+    'FITBIT_CLIENT_SECRET': os.getenv('fitbit_client_secret')
 }
