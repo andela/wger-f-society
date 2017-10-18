@@ -530,6 +530,7 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
                                  'users': context['object_list']['members']}
         return context
 
+
 @login_required
 def get_fitbitData(request):
 

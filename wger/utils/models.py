@@ -79,17 +79,17 @@ class AbstractSubmissionModel(models.Model):
 
 
 class FitbitUser(models.Model):
-    user = models.ForeignKey(User,verbose_name=_('User'), 
-    editable=False, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name=_('User'),
+                             editable=False, on_delete=models.CASCADE)
     fitbit_id = models.CharField(max_length=10)
-    access_token =  models.CharField(max_length=100)
+    access_token = models.CharField(max_length=100)
     refresh_token = models.CharField(max_length=100)
-    
+
     def authenticate(self, user):
         self.user = user
         self.key, self.secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
         is_auth = self.isAuthenticated()
-       
+
         if is_auth:
             auth = fitbit.FitbitOauth2Client(self.key,
                                              self.secret,
@@ -98,12 +98,12 @@ class FitbitUser(models.Model):
                                              refresh_cb=self.refresh)
             #data = auth.refresh_token()
             #is_auth.access_token = data['access_token']
-            #is_auth.save()
+            # is_auth.save()
             self.access_token = is_auth.access_token
             self.refresh_token = is_auth.refresh_token
             self.authenticated = True
             return self.authenticated
-        
+
         return False
 
     def refresh(self, token):
@@ -116,7 +116,7 @@ class FitbitUser(models.Model):
     def isAuthenticated(self):
         is_auth = FitbitUser.objects.filter(user=self.user).first()
         return is_auth
-       
+
     def completeAuth(self, code):
         auth = fitbit.FitbitOauth2Client(self.key, self.secret)
         data = auth.fetch_access_token(code)
@@ -129,9 +129,9 @@ class FitbitUser(models.Model):
 
     def initFitbit(self):
         fitbit_instance = fitbit.Fitbit(self.key, self.secret,
-                               access_token=self.access_token,
-                               refresh_token=self.refresh_token,
-                               system = 'en_UK')
+                                        access_token=self.access_token,
+                                        refresh_token=self.refresh_token,
+                                        system='en_UK')
         return fitbit_instance
 
     def re_auth(self):
@@ -150,8 +150,8 @@ class FitbitUser(models.Model):
             self.refresh_token = is_auth.refresh_token
             return True
         return False
-    
-    def getWeightInfo(self,start=None,end=None):
+
+    def getWeightInfo(self, start=None, end=None):
         try:
             fitbit_instance = self.initFitbit()
             body_weight = fitbit_instance.get_bodyweight(period='1m')
@@ -167,12 +167,12 @@ class FitbitUser(models.Model):
                 if prev_entry:
                     weight_diff = weight_obj.weight - prev_entry.weight
                     day_diff = (parse_date(weight_obj.date) - parse_date(prev_entry.date)).days
-                
+
                 prev_entry = weight_obj
                 clean_data.append((weight_obj, int(weight_diff), day_diff))
         except HTTPUnauthorized:
             if self.re_auth():
                 self.getWeightInfo(start, end)
-        except:
+        except BaseException:
             return clean_data
         return clean_data

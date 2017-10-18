@@ -157,19 +157,18 @@ def overview(request, username=None):
                                      'day': max_date.day}
 
     fitbit = request.GET.get('fitbit')
-    last_weight_entries=[]
+    last_weight_entries = []
     if fitbit:
         fitbituser = FitbitUser()
         result = fitbituser.authenticate(request.user)
         if result:
             last_weight_entries = fitbituser.getWeightInfo()
-            
+
         else:
             return redirect(fitbituser.getUrl()[0])
-    
+
     else:
         last_weight_entries = helpers.get_last_entries(user)
-
 
     template_data['is_owner'] = is_owner
     template_data['owner_user'] = user
@@ -219,7 +218,6 @@ def get_weight_data(request, username=None):
             weights = WeightEntry.objects.filter(user=user)
             for i in weights:
                 chart_data.append({'date': i.date, 'weight': i.weight})
-
 
     # Return the results to the client
     return Response(chart_data)
