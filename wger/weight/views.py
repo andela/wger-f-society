@@ -191,33 +191,21 @@ def get_weight_data(request, username=None):
     weights = []
     chart_data = []
 
-    if date_min and date_max:
-        if fitbit:
-            fitbituser = FitbitUser()
-            result = fitbituser.authenticate(request.user)
-            if result:
-                weights = fitbituser.getWeightInfo()
-            else:
-                weights = []
-
-        else:
-            weights = WeightEntry.objects.filter(
-                user=user, date__range=(date_min, date_max))
+    if fitbit:
+        fitbituser = FitbitUser()
+        result = fitbituser.authenticate(request.user)
+        if result:
+            weights = fitbituser.getWeightInfo()
+            for i in weights:
+                chart_data.append(
+                        {'date': i[0].date, 'weight': i[0].weight})
     else:
-        if fitbit:
-            fitbituser = FitbitUser()
-            result = fitbituser.authenticate(request.user)
-            if result:
-                weights = fitbituser.getWeightInfo()
-                for i in weights:
-                    chart_data.append({'date': i[0].date, 'weight': i[0].weight})
-            else:
-                weights = []
-
+        if date_min and date_max:
+            weights = WeightEntry.objects.filter(user=user, date__range=(date_min, date_max))
         else:
             weights = WeightEntry.objects.filter(user=user)
-            for i in weights:
-                chart_data.append({'date': i.date, 'weight': i.weight})
+        for i in weights:
+            chart_data.append({'date': i.date, 'weight': i.weight})
 
     # Return the results to the client
     return Response(chart_data)
