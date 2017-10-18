@@ -69,4 +69,3 @@ class AbstractSubmissionModel(models.Model):
     status = models.CharField(
         max_length=2, choices=STATUS, default=STATUS_PENDING, editable=False)
     '''Status of the submission, e.g. accepted or declined'''
-    

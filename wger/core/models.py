@@ -30,14 +30,12 @@ from wger.gym.models import Gym
 from wger.utils.constants import TWOPLACES
 from wger.utils.units import AbstractWeight
 
-from wger.weight.models import WeightEntry
 import fitbit
 from fitbit.exceptions import HTTPUnauthorized
 from requests.exceptions import ConnectionError
 from wger.settings_global import WGER_SETTINGS as settings
 from wger.weight.models import WeightEntry
 from django.utils.dateparse import parse_date
-from django.contrib.auth.models import User
 
 
 @python_2_unicode_compatible
