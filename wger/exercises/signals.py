@@ -15,14 +15,16 @@
 # You should have received a copy of the GNU Affero General Public License
 
 from django.db.models.signals import pre_save
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from easy_thumbnails.files import get_thumbnailer
 from easy_thumbnails.signal_handlers import generate_aliases
 from easy_thumbnails.signals import saved_file
+from wger.exercises.models import Muscle
+from wger.utils.cache import delete_template_fragment_cache
 
 from wger.exercises.models import ExerciseImage
-
+from wger.core.models import Language
 
 @receiver(post_delete, sender=ExerciseImage)
 def delete_exercise_image_on_delete(sender, instance, **kwargs):
@@ -33,6 +35,19 @@ def delete_exercise_image_on_delete(sender, instance, **kwargs):
     thumbnailer = get_thumbnailer(instance.image)
     thumbnailer.delete_thumbnails()
     instance.image.delete(save=False)
+
+@receiver([post_delete, post_save], sender=Muscle)
+def delete_muscle_cache(sender, instance, **kwargs):
+    '''
+    Delete the image, along with its thumbnails, from the disk
+    '''
+    for language in Language.objects.all():
+        delete_template_fragment_cache('muscle-overview', language.id)
+        delete_template_fragment_cache('exercise-overview', language.id)
+        delete_template_fragment_cache('exercise-overview-mobile',
+                                    language.id)
+        delete_template_fragment_cache('equipment-overview', language.id)
+
 
 
 @receiver(pre_save, sender=ExerciseImage)
