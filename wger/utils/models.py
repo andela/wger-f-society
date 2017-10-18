@@ -77,12 +77,13 @@ class AbstractSubmissionModel(models.Model):
         max_length=2, choices=STATUS, default=STATUS_PENDING, editable=False)
     '''Status of the submission, e.g. accepted or declined'''
 
+
 class FitbitUser(models.Model):
-    user = models.ForeignKey(User,verbose_name = _('User'),
-    editable = False,on_delete=models.CASCADE)
-    fitbit_id = models.CharField(max_length = 10)
-    access_token =  models.CharField(max_length = 100)
-    refresh_token = models.CharField(max_length = 100)
+    user = models.ForeignKey(User,verbose_name=_('User'), 
+    editable=False, on_delete=models.CASCADE)
+    fitbit_id = models.CharField(max_length=10)
+    access_token =  models.CharField(max_length=100)
+    refresh_token = models.CharField(max_length=100)
     
     def authenticate(self, user):
         self.user = user
@@ -92,8 +93,8 @@ class FitbitUser(models.Model):
         if is_auth:
             auth = fitbit.FitbitOauth2Client(self.key,
                                              self.secret,
-                                             access_token = is_auth.access_token,
-                                             refresh_token = is_auth.refresh_token,
+                                             access_token=is_auth.access_token,
+                                             refresh_token=is_auth.refresh_token,
                                              refresh_cb=self.refresh)
             #data = auth.refresh_token()
             #is_auth.access_token = data['access_token']
@@ -150,7 +151,7 @@ class FitbitUser(models.Model):
             return True
         return False
     
-    def getWeightInfo(self,start = None,end = None):
+    def getWeightInfo(self,start=None,end=None):
         try:
             fitbit_instance = self.initFitbit()
             body_weight = fitbit_instance.get_bodyweight(period='1m')
