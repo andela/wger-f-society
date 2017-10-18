@@ -86,14 +86,25 @@ class FitbitUser(models.Model):
         self.user = user
         self.key, self.secret = settings['FITBIT_CLIENT_ID'], settings['FITBIT_CLIENT_SECRET']
         is_auth = self.isAuthenticated()
-        print(is_auth)
+       
         if is_auth:
             self.access_token = is_auth.access_token
             self.refresh_token = is_auth.refresh_token
             self.authenticated = True
+            auth = fitbit.FitbitOauth2Client(self.key,
+                                             self.secret,
+                                             access_token = self.access_token,
+                                             refresh_token = self.refresh_token,
+                                             refresh_cb=self.refresh)
+            #data = auth.refresh_token()
+            #self.access_token = data['access_token']
+            #self.save()
             return self.authenticated
         
         return False
+
+    def refresh(self, token):
+        print(token)
 
     def getUrl(self):
         auth = fitbit.FitbitOauth2Client(self.key, self.secret)
