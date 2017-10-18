@@ -29,7 +29,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as django_login
 from django.template.loader import render_to_string
-from wger.utils.models import FitbitUser
+from wger.core.models import FitbitUser
 
 
 from wger.core.forms import FeedbackRegisteredForm, FeedbackAnonymousForm

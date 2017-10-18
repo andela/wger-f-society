@@ -43,7 +43,7 @@ from wger.weight import helpers
 from wger.utils.helpers import check_access
 from wger.utils.generic_views import WgerFormMixin
 
-from wger.utils.models import FitbitUser
+from wger.core.models import FitbitUser
 
 
 logger = logging.getLogger(__name__)
