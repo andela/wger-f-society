@@ -46,6 +46,7 @@ jobs:
           command: |
             . venv/bin/activate
             invoke create-settings --settings-path ./settings.py --database-path ./wger/database.sqlite
+            python manage.py makemigrations
             python manage.py test
             flake8 ./wger/
 
