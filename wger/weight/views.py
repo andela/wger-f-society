@@ -159,17 +159,11 @@ def overview(request, username=None):
     fitbit = request.GET.get('fitbit')
     last_weight_entries = []
     if fitbit:
-        fitbituser = FitbitUser()
-        result = fitbituser.authenticate(request.user)
-        if result:
-            weight_info = fitbituser.getWeightInfo()
-            if weight_info:
-                last_weight_entries = weight_info
-            else:
-                return redirect(fitbituser.getUrl()[0])
-
+        results = get_fitbit(request.user)
+        if results[0]:
+            last_weight_entries = results[1]
         else:
-            return redirect(fitbituser.getUrl()[0])
+            return redirect(results[1])
 
     else:
         last_weight_entries = helpers.get_last_entries(user)
@@ -196,11 +190,10 @@ def get_weight_data(request, username=None):
     chart_data = []
 
     if fitbit:
-        fitbituser = FitbitUser()
-        result = fitbituser.authenticate(request.user)
-        if result:
-            weights = fitbituser.getWeightInfo()
-            for i in weights:
+        results = get_fitbit(request.user)
+        if results[0]:
+            weights_raw = results[1]
+            for i in weights_raw:
                 chart_data.append(
                     {'date': i[0].date, 'weight': i[0].weight})
     else:
@@ -213,6 +206,21 @@ def get_weight_data(request, username=None):
 
     # Return the results to the client
     return Response(chart_data)
+
+
+def get_fitbit(user):
+    weights = False
+    fitbituser = FitbitUser()
+    result = fitbituser.authenticate(user)
+    if result:
+        weights = fitbituser.getWeightInfo()
+        if weights:
+            weights = (True, weights)
+        else:
+            weights = (False, fitbituser.getUrl()[0])
+    else:
+        weights = (False, fitbituser.getUrl()[0])
+    return weights
 
 
 class WeightCsvImportFormPreview(FormPreview):
