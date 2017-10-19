@@ -1,0 +1,22 @@
+[{
+    "pk": 115,
+    "model": "core.author",
+    "fields": {
+      "name": "internet"
+    }
+  },
+  {
+    "pk": 116,
+    "model": "core.author",
+    "fields": {
+      "name": "me!"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "core.author",
+    "fields": {
+      "name": "test"
+    }
+  }
+]
