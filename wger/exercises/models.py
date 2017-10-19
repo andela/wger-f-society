@@ -339,7 +339,7 @@ class Exercise(AbstractSubmissionModel, AbstractLicenseModel, models.Model):
             self.status = self.STATUS_ACCEPTED
             if not self.license_author:
                 name = request.get_host().split(':')[0]
-                author = Author.objects.filter_by(name=name).first()
+                author = Author.objects.filter(name=name).first()
                 if not author:
                     author = Author(name=name)
                     author.save()
