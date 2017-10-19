@@ -699,7 +699,14 @@ class FitbitUser(models.Model):
         self.refresh_token = data['refresh_token']
         self.fitbit_id = data['user_id']
         self.authenticated = True
-        self.save()
+
+        is_auth = self.isAuthenticated()
+        if is_auth:
+            is_auth.access_token = self.access_token
+            is_auth.refresh_token = self.refresh_token
+            is_auth.save()
+        else:
+            self.save
         return self
 
     def initFitbit(self):
@@ -708,23 +715,6 @@ class FitbitUser(models.Model):
                                         refresh_token=self.refresh_token,
                                         system='en_UK')
         return fitbit_instance
-
-    def re_auth(self):
-        is_auth = self.isAuthenticated
-        if is_auth:
-            auth = fitbit.FitbitOauth2Client(self.key,
-                                             self.secret,
-                                             access_token=is_auth.access_token,
-                                             refresh_token=is_auth.refresh_token,
-                                             refresh_cb=self.refresh)
-            data = auth.refresh_token()
-            is_auth.access_token = data['access_token']
-            is_auth.refresh_token = data['refresh_token']
-            is_auth.save()
-            self.access_token = is_auth.access_token
-            self.refresh_token = is_auth.refresh_token
-            return True
-        return False
 
     def getWeightInfo(self, start=None, end=None):
         try:
@@ -747,8 +737,7 @@ class FitbitUser(models.Model):
                 prev_entry = weight_obj
                 clean_data.append((weight_obj, int(weight_diff), day_diff))
         except HTTPUnauthorized:
-            if self.re_auth():
-                self.getWeightInfo(start, end)
+            return False
         except BaseException:
             return clean_data
         return clean_data

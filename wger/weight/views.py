@@ -162,7 +162,11 @@ def overview(request, username=None):
         fitbituser = FitbitUser()
         result = fitbituser.authenticate(request.user)
         if result:
-            last_weight_entries = fitbituser.getWeightInfo()
+            weight_info = fitbituser.getWeightInfo()
+            if weight_info:
+                last_weight_entries = weight_info
+            else:
+                return redirect(fitbituser.getUrl()[0])
 
         else:
             return redirect(fitbituser.getUrl()[0])
@@ -198,7 +202,7 @@ def get_weight_data(request, username=None):
             weights = fitbituser.getWeightInfo()
             for i in weights:
                 chart_data.append(
-                        {'date': i[0].date, 'weight': i[0].weight})
+                    {'date': i[0].date, 'weight': i[0].weight})
     else:
         if date_min and date_max:
             weights = WeightEntry.objects.filter(user=user, date__range=(date_min, date_max))
