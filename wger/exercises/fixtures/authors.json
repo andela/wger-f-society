@@ -796,5 +796,19 @@
       "fields": {
         "name": "richmr2174@gmail.com"
       }
-    }
+    },
+    {
+        "pk": 115,
+        "model": "core.author",
+        "fields": {
+          "name": "internet"
+        }
+      },
+      {
+        "pk": 116,
+        "model": "core.author",
+        "fields": {
+          "name": "me!"
+        }
+      }
   ]
