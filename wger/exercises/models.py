@@ -35,6 +35,7 @@ from django.core.validators import MinLengthValidator
 from django.conf import settings
 
 from wger.core.models import Language
+from wger.core.models import Author
 from wger.utils.helpers import smart_capitalize
 from wger.utils.managers import SubmissionManager
 from wger.utils.models import AbstractLicenseModel, AbstractSubmissionModel
@@ -307,10 +308,10 @@ class Exercise(AbstractSubmissionModel, AbstractLicenseModel, models.Model):
         submitted exercises only)
         '''
         try:
-            user = User.objects.get(username=self.license_author)
+            user = User.objects.get(username=self.license_author.name)
         except User.DoesNotExist:
             return
-        if self.license_author and user.email:
+        if self.license_author.name and user.email:
             translation.activate(
                 user.userprofile.notification_language.short_name)
             url = request.build_absolute_uri(self.get_absolute_url())
@@ -337,11 +338,21 @@ class Exercise(AbstractSubmissionModel, AbstractLicenseModel, models.Model):
         if request.user.has_perm('exercises.add_exercise'):
             self.status = self.STATUS_ACCEPTED
             if not self.license_author:
-                self.license_author = request.get_host().split(':')[0]
+                name = request.get_host().split(':')[0]
+                author = Author.objects.filter_by(name=name).first()
+                if not author:
+                    author = Author(name=name)
+                    author.save()
+                self.license_author = author
         else:
             if not self.license_author:
-                self.license_author = request.user.username
-
+                name = request.user.username
+                author = Author.objects.filter(name=name).first()
+                if not author:
+                    author = Author(name=name)
+                    author.save()
+                    print(author, "here")
+                self.license_author = author
             subject = _('New user submitted exercise')
             message = _(
                 u'The user {0} submitted a new exercise "{1}".').format(
@@ -461,11 +472,21 @@ class ExerciseImage(AbstractSubmissionModel, AbstractLicenseModel,
         if request.user.has_perm('exercises.add_exerciseimage'):
             self.status = self.STATUS_ACCEPTED
             if not self.license_author:
-                self.license_author = request.get_host().split(':')[0]
+                name = request.get_host().split(':')[0]
+                author = Author.objects.filter(name=name).first()
+                if not author:
+                    author = Author(name=name)
+                    author.save()
+                    print(author, "here")
 
         else:
             if not self.license_author:
-                self.license_author = request.user.username
+                name = request.user.username
+                author = Author.objects.filter(name=name).first()
+                if not author:
+                    author = Author(name=name)
+                    author.save()
+                    print(author, "here")
 
             subject = _('New user submitted image')
             message = _(
