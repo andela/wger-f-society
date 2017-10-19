@@ -14,7 +14,6 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
-import os
 import re
 import sys
 
@@ -25,6 +24,7 @@ For a full list of options, visit:
 '''
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -271,7 +271,7 @@ RECAPTCHA_USE_SSL = True
 #
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'wger-cache',
         'TIMEOUT': 30 * 24 * 60 * 60,  # Cache for a month
     }
@@ -282,43 +282,20 @@ CACHES = {
 #
 THUMBNAIL_ALIASES = {
     '': {
-        'micro': {
-            'size': (30, 30)
-        },
-        'micro_cropped': {
-            'size': (30, 30),
-            'crop': 'smart'
-        },
-        'thumbnail': {
-            'size': (80, 80)
-        },
-        'thumbnail_cropped': {
-            'size': (80, 80),
-            'crop': 'smart'
-        },
-        'small': {
-            'size': (200, 200)
-        },
-        'small_cropped': {
-            'size': (200, 200),
-            'crop': 'smart'
-        },
-        'medium': {
-            'size': (400, 400)
-        },
-        'medium_cropped': {
-            'size': (400, 400),
-            'crop': 'smart'
-        },
-        'large': {
-            'size': (800, 800),
-            'quality': 90
-        },
-        'large_cropped': {
-            'size': (800, 800),
-            'crop': 'smart',
-            'quality': 90
-        },
+        'micro': {'size': (30, 30)},
+        'micro_cropped': {'size': (30, 30), 'crop': 'smart'},
+
+        'thumbnail': {'size': (80, 80)},
+        'thumbnail_cropped': {'size': (80, 80), 'crop': 'smart'},
+
+        'small': {'size': (200, 200)},
+        'small_cropped': {'size': (200, 200), 'crop': 'smart'},
+
+        'medium': {'size': (400, 400)},
+        'medium_cropped': {'size': (400, 400), 'crop': 'smart'},
+
+        'large': {'size': (800, 800), 'quality': 90},
+        'large_cropped': {'size': (800, 800), 'crop': 'smart', 'quality': 90},
     },
 }
 
@@ -335,9 +312,6 @@ COMPRESS_CSS_FILTERS = (
     'compressor.filters.css_default.CssAbsoluteFilter',
     'compressor.filters.cssmin.rCSSMinFilter'
 )
-
-COMPRESS_CSS_FILTERS = ('compressor.filters.css_default.CssAbsoluteFilter',
-                        'compressor.filters.cssmin.rCSSMinFilter')
 COMPRESS_ROOT = STATIC_ROOT
 
 # BOWER binary
@@ -351,17 +325,15 @@ else:
 #
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission',),
+    'PAGINATE_BY': 20,
+    'PAGINATE_BY_PARAM': 'limit',  # Allow client to override, using `?limit=xxx`.
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
-                                'rest_framework.filters.OrderingFilter'),
-    'PAGINATE_BY': 20,
-    'PAGINATE_BY_PARAM':
-    'limit',  # Allow client to override, using `?limit=xxx`.
-    'TEST_REQUEST_DEFAULT_FORMAT':
-    'json',
+                                'rest_framework.filters.OrderingFilter',)
 }
 
 
@@ -390,6 +362,6 @@ WGER_SETTINGS = {
     'ALLOW_GUEST_USERS': True,
     'EMAIL_FROM': 'wger Workout Manager <wger@example.com>',
     'TWITTER': False,
-    'FITBIT_CLIENT_ID': None,
-    'FITBIT_CLIENT_SECRET': None
+    'FITBIT_CLIENT_ID': os.getenv('fitbit_client_id'),
+    'FITBIT_CLIENT_SECRET': os.getenv('fitbit_client_secret')
 }

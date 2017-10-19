@@ -32,6 +32,8 @@ urlpatterns = [
         name='import-csv'),
     url(r'^overview/(?P<username>[\w.@+-]+)$', views.overview,
         name='overview'),
+    # url(r'^overview/(?P<username>[\w.@+-]+)/(?P<fitbit>[\w.@+-]+)', views.overview,
+    #     name='overview'),
     # url(r'^overview/$',
     #     views.overview,
     #     name='overview'),
@@ -39,6 +41,9 @@ urlpatterns = [
         views.get_weight_data,
         name='weight-data'),
     url(r'^api/get_weight_data/$',  # JS
+        views.get_weight_data,
+        name='weight-data'),
+    url(r'^api/get_weight_data/(?P<username>[\w.@+-]+)\?fitbit=true$',  # JS
         views.get_weight_data,
         name='weight-data'),
 ]
