@@ -32,13 +32,14 @@ from wger.utils.units import AbstractWeight
 
 from wger.weight.models import WeightEntry
 
+
 @python_2_unicode_compatible
 class Author(models.Model):
     '''
     Author of an exercise
     '''
     name = models.CharField(max_length=256,
-                                  verbose_name=_('name'))
+                            verbose_name=_('name'))
 
 
 @python_2_unicode_compatible
