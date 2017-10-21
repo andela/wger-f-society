@@ -60,6 +60,9 @@ patterns_user = [
     url(r'^logout$',
         user.logout,
         name='logout'),
+    url(r'^social', include(
+        'social_django.urls',
+        namespace="social")),
     url(r'^delete$',
         user.delete,
         name='delete'),
