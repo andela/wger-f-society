@@ -44,6 +44,24 @@
                         {% endif %}
 
 
+                        {#                     #}
+                        {# Comparison of Users #}
+                        {#                     #}
+                        {% if perms.gym.manage_gyms or perms.gym.manage_gym or perms.gym.gym_trainer %}
+
+                        <li class="dropdown{% if active_tab == 'gym' %} active{% endif %}">
+
+                            <a href=""
+                               class="dropdown-toggle"
+                               data-toggle="dropdown"
+                               rel="nofollow">{% trans "User Compare" %} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'gym:gym:list' %}">{% trans "Compare Gym Users" %} </a></li>
+                            </ul>
+                        </li>
+                        {% endif  %}
+
+
                         {#               #}
                         {# Exercises tab #}
                         {#               #}
@@ -89,7 +107,7 @@
                         </li>
                         {% endif %}
 
-                        
+
 
 
                         {#               #}
@@ -251,4 +269,3 @@
         </div>
     </div>
 </nav>
-
