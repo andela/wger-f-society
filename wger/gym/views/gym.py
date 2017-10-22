@@ -136,6 +136,29 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
         return context
 
 
+class GymUserCompareView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, ListView):
+    '''
+    Overview for comparing gym users
+    '''
+    model = User
+    permission_required = ('gym.manage_gym', 'gym.gym_trainer', 'gym.manage_gyms')
+    template_name = 'gym/compare.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        '''
+        Only managers and trainers for this gym can access the members
+        '''
+        if request.user.has_perm('gym.manage_gyms') or\
+            ((request.user.has_perm('gym.manage_gym') or
+              request.user.has_perm('gym.gym_trainer')) and
+             request.user.userprofile.gym_id == int(self.kwargs['pk'])):
+            return super(GymUserCompareView, self).dispatch(request, *args, **kwargs)
+        return HttpResponseForbidden()
+
+    # def get_queryset(self):
+
+
+
 class GymAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     '''
     View to add a new gym
