@@ -66,7 +66,6 @@ class MealCreateView(WgerFormMixin, CreateView):
             meal_item.save()
         return self.object.plan.get_absolute_url()
 
-
     # Send some additional data to the template
     def get_context_data(self, **kwargs):
         context = super(MealCreateView, self).get_context_data(**kwargs)

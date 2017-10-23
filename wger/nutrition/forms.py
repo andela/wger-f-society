@@ -108,6 +108,7 @@ class DailyCaloriesForm(forms.ModelForm):
         model = UserProfile
         fields = ('calories', )
 
+
 class MealForm(forms.ModelForm):
     weight_unit = forms.ModelChoiceField(
         queryset=IngredientWeightUnit.objects.none(),
