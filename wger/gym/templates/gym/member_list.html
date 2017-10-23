@@ -81,13 +81,13 @@
                 <li class="divider"></li>
                 <li>
                     {% if current_user.obj.is_active %}
-                        <a href="{% url 'core:user:deactivate' current_user.obj.pk %}" >{% trans "Deactivate user"%}</a>
+                        <a href="{% url 'core:user:deactivate' current_user.obj.pk %}" >{% trans "Deactivate trainer "%}</a>
                     {% else %}
-                        <a href="{% url 'core:user:activate' current_user.obj.pk %}">{% trans "Activate user"%}</a>
+                        <a href="{% url 'core:user:activate' current_user.obj.pk %}">{% trans "Activate trainer "%}</a>
                     {% endif %}
                 </li>
                 <li>
-                    <a href="{% url 'core:user:delete' current_user.obj.pk %}" class="wger-modal-dialog">{% trans "Delete"%}</a>
+                    <a href="{% url 'core:user:delete' current_user.obj.pk %}" class="wger-modal-dialog">{% trans "Delete trainer"%}</a>
                 </li>
             </ul>
         </div>
