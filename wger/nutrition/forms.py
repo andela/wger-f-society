@@ -20,8 +20,8 @@ from django import forms
 from django.utils.translation import ugettext as _
 from wger.core.models import UserProfile
 
-from wger.nutrition.models import (IngredientWeightUnit, Ingredient, MealItem)
-from wger.utils.widgets import Html5NumberInput
+from wger.nutrition.models import (IngredientWeightUnit, Ingredient, MealItem, Meal)
+from wger.utils.widgets import Html5NumberInput, Html5TimeInput
 
 logger = logging.getLogger(__name__)
 
@@ -107,6 +107,45 @@ class DailyCaloriesForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('calories', )
+
+
+class MealForm(forms.ModelForm):
+    weight_unit = forms.ModelChoiceField(
+        queryset=IngredientWeightUnit.objects.none(),
+        empty_label="g",
+        required=False)
+    time = forms.DateTimeField(
+        required=False,
+        widget=Html5TimeInput,
+        input_formats=['%H:%M']
+    )
+    ingredient = forms.ModelChoiceField(
+        queryset=Ingredient.objects.all(), widget=forms.HiddenInput
+    )
+    amount = forms.DecimalField(
+        widget=Html5NumberInput
+    )
+
+    class Meta:
+        model = Meal
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(MealForm, self).__init__(*args, **kwargs)
+
+        # Get the ingredient_id
+        ingredient_id = None
+
+        if kwargs.get('instance'):
+            ingredient_id = kwargs['instance'].ingredient_id
+
+        if kwargs.get('data'):
+            ingredient_id = kwargs['data']['ingredient']
+
+        # Filter the available ingredients
+        if ingredient_id:
+            self.fields['weight_unit'].queryset = \
+                IngredientWeightUnit.objects.filter(ingredient_id=ingredient_id)
 
 
 class MealItemForm(forms.ModelForm):

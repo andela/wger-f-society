@@ -54,7 +54,7 @@ class MealItemCreateView(WgerFormMixin, CreateView):
     '''
 
     model = MealItem
-    form_class = MealItemForm
+    fields = '__all__'
     template_name = 'meal_item/edit.html'
 
     def dispatch(self, request, *args, **kwargs):

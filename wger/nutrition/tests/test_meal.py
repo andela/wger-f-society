@@ -21,7 +21,7 @@ from wger.core.tests import api_base_test
 from wger.core.tests.base_testcase import (WorkoutManagerTestCase,
                                            WorkoutManagerEditTestCase,
                                            WorkoutManagerAddTestCase)
-from wger.nutrition.models import Meal
+from wger.nutrition.models import Meal, MealItem
 from wger.nutrition.models import NutritionPlan
 
 
@@ -55,7 +55,15 @@ class AddMealTestCase(WorkoutManagerAddTestCase):
 
     object_class = Meal
     url = reverse('nutrition:meal:add', kwargs={'plan_pk': 4})
-    data = {'time': datetime.time(9, 2)}
+    # change datetime to hours and mins only
+    data = {
+        'ingredient': 1,
+        'amount': 1,
+        'time': datetime.time(8, 12).strftime("%H:%M")
+    }
+    data_ignore = (
+        'weight_unit', 'amount', 'ingredient', 'time'
+    )
     user_success = 'test'
     user_fail = 'admin'
 
