@@ -80,9 +80,14 @@
             <ul class="dropdown-menu" role="menu">
                 <li class="divider"></li>
                 <li>
-                    {% if current_user.is_active %}
-                        <a href="{% url 'core:user:deactivate' current_user.pk %}" >{% trans "Deactivate user"%}</a>
+                    {% if current_user.obj.is_active %}
+                        <a href="{% url 'core:user:deactivate' current_user.obj.pk %}" >{% trans "Deactivate user"%}</a>
+                    {% else %}
+                        <a href="{% url 'core:user:activate' current_user.obj.pk %}">{% trans "Activate user"%}</a>
                     {% endif %}
+                </li>
+                <li>
+                    <a href="{% url 'core:user:delete' current_user.obj.pk %}" class="wger-modal-dialog">{% trans "Delete"%}</a>
                 </li>
             </ul>
         </div>
