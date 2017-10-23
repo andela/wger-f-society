@@ -30,7 +30,7 @@ patterns_gym = [
     url(r'^(?P<pk>\d+)/members$',
         gym.GymUserListView.as_view(),
         name='user-list'),
-    url(r'^(?P<pk>\d+)$',
+    url(r'^(?P<pk>\d+)/member-compare$',
         gym.GymUserCompareView.as_view(),
         name='member-compare'),
     url(r'^(?P<pk>\d+)/members/([active|inactive])',
