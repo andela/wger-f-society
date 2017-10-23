@@ -55,12 +55,12 @@ class AddMealTestCase(WorkoutManagerAddTestCase):
 
     object_class = Meal
     url = reverse('nutrition:meal:add', kwargs={'plan_pk': 4})
-    #change datetime to hours and mins only
+    # change datetime to hours and mins only
     data = {
         'ingredient': 1,
         'amount': 1,
         'time': datetime.time(8, 12).strftime("%H:%M")
-        }
+    }
     data_ignore = (
         'weight_unit', 'amount', 'ingredient', 'time'
     )

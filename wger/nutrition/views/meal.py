@@ -55,7 +55,7 @@ class MealCreateView(WgerFormMixin, CreateView):
     def get_success_url(self):
         data = self.request.POST
         ingredient = Ingredient.objects.get(pk=data['ingredient'])
-        ## create a meal item if meal is created successfully
+        # create a meal item if meal is created successfully
         meal_item = MealItem.objects.create(
             meal=self.object,
             amount=data['amount'],
