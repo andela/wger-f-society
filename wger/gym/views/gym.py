@@ -16,6 +16,7 @@
 import csv
 import datetime
 import logging
+import json
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -56,6 +57,7 @@ from wger.utils.generic_views import (
     WgerDeleteMixin,
     WgerMultiplePermissionRequiredMixin)
 from wger.utils.helpers import password_generator
+from wger.core.models import UserProfile
 
 
 logger = logging.getLogger(__name__)
@@ -119,7 +121,7 @@ class GymUserListView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin, L
                                             'manage_gyms': u.has_perm('gym.manage_gyms'),
                                             'gym_trainer': u.has_perm('gym.gym_trainer'),
                                             'any_admin': is_any_gym_admin(u)}
-                                  })
+                                 })
         return out
 
     def get_context_data(self, **kwargs):
@@ -155,8 +157,37 @@ class GymUserCompareView(LoginRequiredMixin, WgerMultiplePermissionRequiredMixin
             return super(GymUserCompareView, self).dispatch(request, *args, **kwargs)
         return HttpResponseForbidden()
 
-    # def get_queryset(self):
+    def get_queryset(self):
+        '''
+        Get the list of members  not really a queryset.
+        '''
+        all_members = {
+            'members': [
+                member for member in UserProfile.objects.all()
+            ],
+            'users': [
+                {'obj': user} for user in Gym.objects.get_members\
+                (self.kwargs['pk']).select_related('usercache')
+            ]}
+        return all_members
 
+    def get_context_data(self, **kwargs):
+        '''
+        Pass other info to the template
+        '''
+        context = super(GymUserCompareView, self).get_context_data(**kwargs)
+        context['gym'] = Gym.objects.get(pk=self.kwargs['pk'])
+        context['user_table'] = {'keys': [_('ID'), _('Username'), _('Select')]}
+        context['members'] = {'members': context['object_list']['members'],
+                              'users': context['object_list']['users']}
+        data = {}
+        for member in context['members']['members']:
+            data[member.user_id] = {
+                "calories": member.calories / 10 if member.calories else 0,
+                'height':  member.height,
+            }
+        context['members_data'] = json.dumps(data)
+        return context
 
 
 class GymAddView(WgerFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView):
