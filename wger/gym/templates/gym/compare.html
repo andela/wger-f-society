@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load i18n staticfiles wger_extras django_bootstrap_breadcrumbs %}
+
+{% block title %}{{gym}}
+  {% trans  " Members Comparison" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    {% if perms.gym.manage_gyms %}
+        {% breadcrumb "Gyms" "gym:gym:list" %}
+        {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
+        {% breadcrumb_raw "member-compare" "gym:gym:member-compare" %}
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/datatables/media/css/dataTables.bootstrap.min.css' %}">
+<script src="{% static 'bower_components/datatables/media/js/jquery.dataTables.min.js' %}" ></script>
+<script src="{% static 'bower_components/datatables/media/js/dataTables.bootstrap.min.js' %}" ></script>
+<script type="text/javascript" src="{% static 'jquery/canvasjs.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'compare.js' %}"></script>
+<script>
+$(document).ready( function () {
+    /* Make table sortable */
+    $('#main_member_list').DataTable({
+        paging: false,
+        bFilter: true,
+        bInfo : false
+    });
+});
+</script>
+
+<table class="table table-hover" id="main_member_list">
+<thead>
+<tr>
+    {% for key in user_table.keys %}
+        <th>{{ key }}</th>
+    {% endfor %}
+</tr>
+</thead>
+<tbody>
+{% for user in members.users %}
+  {% if user.obj.is_active %}
+    {%  for member in members.members %}
+      {% if member.user_id = user.obj.pk %}
+          <tr id="member_row" data-memberdata="{{ members_data }}" >
+            {% endif %}
+            {% endfor %}
+              <td>
+                  {{user.obj.pk}}
+              </td>
+              <td>
+                  <a href="{% url 'core:user:overview' user.obj.pk %}">{{user.obj}}</a>
+              </td>
+              <td>
+                <input type="checkbox" id="current_selected_member" name="user_selected">
+              </td>
+          </tr>
+  {% endif %}
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}
+{{ array_data }}
+{% block content %}
+<div align="center" class="msg" id="msg">
+  <p>No users to show </p> To Display the graph select atleast two user from the side panel on your right.
+</div>
+<div class="disabled" id="chartContainer" style="height: 400px; width: 100%;"></div>
+{% endblock %}
