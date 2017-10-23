@@ -34,6 +34,7 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 SITE_ID = 1
 ROOT_URLCONF = 'wger.urls'
 WSGI_APPLICATION = 'wger.wsgi.application'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -137,6 +138,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
     'wger.utils.helpers.EmailAuthBackend'
@@ -278,9 +280,7 @@ LOGGING = {
 #
 # ReCaptcha
 #
-RECAPTCHA_USE_SSL = True
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
+RECAPTCHA_USE_SSL = True                 
 
 #
 # Cache
