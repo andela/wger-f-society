@@ -17,15 +17,18 @@
 $(document).ready(function() {
 
     // Init the autocompleter
+    '{% get_current_language as LANGUAGE_CODE %}';
+    var language_code = '{{LANGUAGE_CODE}}';
+    var url = '{% url 'exercise-search' %}' + '?language=' + language_code;
     $('#exercise-search').autocomplete({
-        serviceUrl: '{% url 'exercise-search' %}',
+        serviceUrl: url,
         showNoSuggestionNotice: true,
         dataType: 'json',
         paramName: 'term',
         groupBy: 'category',
         minChars: 3,
         onSelect: function (suggestion) {
-            window.location.href = '/exercise/' + suggestion.data.id + '/view/'
+            window.location.href = '/'+language_code+'/exercise/' + suggestion.data.id + '/view/'
         }
     });
 });

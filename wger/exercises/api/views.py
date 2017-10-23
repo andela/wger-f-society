@@ -86,11 +86,11 @@ def search(request):
     This format is currently used by the exercise search autocompleter
     '''
     q = request.GET.get('term', None)
+    lang = request.GET.get('language', None)
     results = []
     json_response = {}
     if q:
-        languages = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES,
-                                        language_code=request.GET.get('language', None))
+        languages = load_item_languages(LanguageConfig.SHOW_ITEM_EXERCISES, lang)
         exercises = (Exercise.objects.filter(name__icontains=q)
                      .filter(language__in=languages)
                      .filter(status=Exercise.STATUS_ACCEPTED)
