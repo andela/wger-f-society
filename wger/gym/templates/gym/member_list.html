@@ -327,5 +327,8 @@
     <a href="{% url 'gym:gym:add-user' gym.pk %}" class="btn btn-success btn-sm wger-modal-dialog">
         {% trans "Add member" %}
     </a>
+    <a href="{% url 'gym:gym:member-compare' gym.pk %}" class="btn btn-primary btn-sm">
+        {% trans "Compare members" %}
+    </a>
 {% endif %}
 {% endblock %}
