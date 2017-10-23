@@ -62,8 +62,9 @@ class MealCreateView(WgerFormMixin, CreateView):
             ingredient=ingredient
         )
         if 'weight_unit' in data:
-            meal_item.weight_unit = data['weight_unit']
-            meal_item.save()
+            if data['weight_unit']:
+                meal_item.weight_unit = data['weight_unit']
+                meal_item.save()
         return self.object.plan.get_absolute_url()
 
     # Send some additional data to the template
