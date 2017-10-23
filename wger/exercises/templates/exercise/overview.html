@@ -1,87 +1,89 @@
-{% extends "base.html" %}
-{% load i18n %}
-{% load staticfiles %}
-{% load wger_extras %}
-{% load cache %}
-{% load thumbnail %}
+{% extends "base.html" % }
+{% load i18n % }
+{% load staticfiles % }
+{% load wger_extras % }
+{% load cache % }
+{% load thumbnail % }
 
 <!--
         Title
 -->
-{% block title %}{% trans "Exercises" %}{% endblock %}
+{% block title % }{ % trans "Exercises" % }{ % endblock % }
 
 
 
-{% block header %}
-<script>
+{% block header % }
+<script >
 $(document).ready(function() {
 
     // Init the autocompleter
-    $('#exercise-search').autocomplete({
-        serviceUrl: '{% url 'exercise-search' %}',
+    '{% get_current_language as LANGUAGE_CODE %}';
+    var language_code='{{LANGUAGE_CODE}}';
+    var url='{% url 'exercise - search' %}' + '?language=' + language_code; $('#exercise-search').autocomplete({
+        serviceUrl: url,
         showNoSuggestionNotice: true,
         dataType: 'json',
         paramName: 'term',
         groupBy: 'category',
         minChars: 3,
-        onSelect: function (suggestion) {
-            window.location.href = '/exercise/' + suggestion.data.id + '/view/'
+        onSelect: function(suggestion) {
+            window.location.href='/exercise/' + suggestion.data.id + '/view/'
+            alert(url)
         }
-    });
-});
-</script>
-{% endblock %}
+    }); });
+< / script >
+{% endblock % }
 
 
 <!--
         Main Content
 -->
-{% block content %}
+{% block content % }
 
-{% cache cache_timeout exercise-overview language.id %}
-{% regroup exercises by category as exercise_list %}
-<ul class="nav nav-tabs">
-    {% for item in exercise_list %}
-    <li {% if forloop.first %}class="active"{% endif %}>
-        <a href="#tab-{{ item.grouper.id }}" id="category-{{ item.grouper.id }}" data-toggle="tab">{% trans item.grouper.name %}</a>
-    </li>
-    {% empty %}
-        <li>{% trans "No categories." %} {% trans "Use link to create one" %}</li>
-    {% endfor %}
-</ul>
+{% cache cache_timeout exercise-overview language.id % }
+{% regroup exercises by category as exercise_list % }
+<ul class = "nav nav-tabs" >
+    {% for item in exercise_list % }
+    <li { % if forloop.first % }class = "active"{ % endif % } >
+        <a href = "#tab-{{ item.grouper.id }}" id = "category-{{ item.grouper.id }}" data-toggle = "tab" > { % trans item.grouper.name % } < /a >
+    < / li >
+    {% empty % }
+        <li > { % trans "No categories." % } { % trans "Use link to create one" % } < /li >
+    {% endfor % }
+< / ul >
 
-<div class="tab-content">
-    {% for item in exercise_list %}
-    <div class="tab-pane {% if forloop.first %}active{% endif %}" id="tab-{{ item.grouper.id }}">
-        <div class="list-group">
-        {% for exercise in item.list|dictsort:"name" %}
-            <a href="{{ exercise.get_absolute_url }}" class="list-group-item">
-                <div class="visible-xs">
-                    <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-                </div>
-                <div class="media">
-                    <div style="width:60px;height:60px;" class="media-left">
+<div class = "tab-content" >
+    {% for item in exercise_list % }
+    <div class = "tab-pane {% if forloop.first %}active{% endif %}" id = "tab-{{ item.grouper.id }}" >
+        <div class = "list-group" >
+        { % for exercise in item.list|dictsort: "name" % }
+            <a href = "{{ exercise.get_absolute_url }}" class = "list-group-item" >
+                <div class = "visible-xs" >
+                    <span class = "glyphicon glyphicon-chevron-right pull-right" > < / span >
+                < / div >
+                <div class = "media" >
+                    <div style = "width:60px;height:60px;" class = "media-left" >
 
-                    {% if exercise.main_image %}
-                        <img alt="{{ exercise.name }}"
-                         class="media-object "
-                         style="max-width:100%; max-height:100%;"
-                         src="{{ exercise.main_image.image|thumbnail_url:'thumbnail' }}">
-                    {% else %}
-                    <img alt="{% trans 'Placeholder image for exercise' %}"
-                         class="media-object "
-                         style="max-width:100%; max-height:100%; opacity: 0.4;"
-                         src="{% static 'images/icons/image-placeholder.svg' %}">
-                    {% endif %}
-                    </div>
-                    <div class="media-body" style="position: absolute; top: 10px; left: 100px;">
-                        <h4 class="media-heading">{{ exercise.name }}</h4>
-                        <span class="text-muted">
-                            {% for equipment in exercise.equipment.all %}
-                                {% trans equipment.name %}
-                                {% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                        </span>
+                    {% if exercise.main_image % }
+                        <img alt = "{{ exercise.name }}"
+                         class = "media-object "
+                         style = "max-width:100%; max-height:100%;"
+                         src = "{{ exercise.main_image.image|thumbnail_url:'thumbnail' }}" >
+                    {% else % }
+                    <img alt = "{% trans 'Placeholder image for exercise' %}"
+                         class = "media-object "
+                         style = "max-width:100%; max-height:100%; opacity: 0.4;"
+                         src = "{% static 'images/icons/image-placeholder.svg' %}" >
+                    {% endif % }
+                    < / div >
+                    <div class = "media-body" style = "position: absolute; top: 10px; left: 100px;" >
+                        <h4 class = "media-heading" > {{exercise.name}} < /h4 >
+                        <span class = "text-muted" >
+                            {% for equipment in exercise.equipment.all % }
+                                {% trans equipment.name % }
+                                { % if not forloop.last % }, { % endif % }
+                            {% endfor % }
+                        < / span >
                      </div>
                 </div>
             </a>
@@ -119,7 +121,7 @@ $(document).ready(function() {
 {% block options %}
     {% if user.is_authenticated and not user.userprofile.is_temporary %}
         <select class="btn btn-sm">
-            <option>Choose language</option>
+                <option>{% trans user.name %}</option>
         </select>
         <a href="{% url 'exercise:exercise:add' %}" class="btn btn-success btn-sm">
             {% trans "Add new exercise" %}
