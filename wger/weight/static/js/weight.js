@@ -34,6 +34,7 @@ function modifyTimePeriod(data, pastNumberDays) {
 $(document).ready(function () {
   var url;
   var username;
+  var fitbit;
   var chartParams;
   var weightChart;
   weightChart = {};
@@ -53,7 +54,15 @@ $(document).ready(function () {
   };
 
   username = $('#current-username').data('currentUsername');
-  url = '/weight/api/get_weight_data/' + username;
+  fitbit = $('#current-username').data('fitbit');
+
+  if(fitbit === true){
+    url = '/weight/api/get_weight_data/' + username+"?fitbit=true";
+  }
+  else{
+    url = '/weight/api/get_weight_data/' + username;
+
+  }
 
   d3.json(url, function (json) {
     var data;
