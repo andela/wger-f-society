@@ -33,6 +33,7 @@
     <th>{% trans "Name" %}</th>
     {% if perms.gym.manage_gym or perms.gym.manage_gyms %}
         <th style="text-align: right;">{% trans "Roles" %}</th>
+        <th style="text-align: right;">{% trans "Edit" %}</th>
     {% endif %}
 </tr>
 </thead>
@@ -68,6 +69,27 @@
         </a>
     </td>
     {% endif %}
+
+    {% if perms.gym.manage_gym or perms.gym.manage_gyms %}
+      {% if current_user.perms.gym_trainer %}
+      <td style="text-align: right;">
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown">
+                {% trans "Actions" %} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li class="divider"></li>
+                <li>
+                    {% if current_user.is_active %}
+                        <a href="{% url 'core:user:deactivate' current_user.pk %}" >{% trans "Deactivate user"%}</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+      </td>
+    {% endif %}
+    {% endif %}
+
 </tr>
 {% empty %}
 <tr>
