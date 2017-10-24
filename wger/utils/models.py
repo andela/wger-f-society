@@ -36,6 +36,7 @@ class AbstractLicenseModel(models.Model):
 
     license_author = models.ForeignKey(Author,
         verbose_name=_('Author'),
+        to_field="name",
         max_length=50,
         blank=True,
         null=True,
