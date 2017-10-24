@@ -14,8 +14,10 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 
+import os
 import re
 import sys
+
 '''
 This file contains the global settings that don't usually need to be changed.
 For a full list of options, visit:
@@ -23,7 +25,6 @@ For a full list of options, visit:
 '''
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 
@@ -84,7 +85,8 @@ INSTALLED_APPS = (
     'corsheaders',
 
     # django-bower for installing bower packages
-    'djangobower', )
+    'djangobower',
+)
 
 # added list of external libraries to be installed by bower
 BOWER_INSTALLED_APPS = (
@@ -98,7 +100,8 @@ BOWER_INSTALLED_APPS = (
     'tinymce',
     'metrics-graphics',
     'devbridge-autocomplete#1.2.x',
-    'sortablejs#1.4.x', )
+    'sortablejs#1.4.x',
+)
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
@@ -120,10 +123,13 @@ MIDDLEWARE_CLASSES = (
 
     # Django mobile
     'django_mobile.middleware.MobileDetectionMiddleware',
-    'django_mobile.middleware.SetFlavourMiddleware', )
+    'django_mobile.middleware.SetFlavourMiddleware',
+)
 
-AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',
-                           'wger.utils.helpers.EmailAuthBackend')
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'wger.utils.helpers.EmailAuthBackend'
+)
 
 TEMPLATES = [
     {
@@ -151,11 +157,11 @@ TEMPLATES = [
             'loaders': [
                 # Django mobile
                 'django_mobile.loader.Loader',
+
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
             ],
-            'debug':
-            False
+            'debug': False
         },
     },
 ]
@@ -170,7 +176,8 @@ STATICFILES_FINDERS = (
     'djangobower.finders.BowerFinder',
 
     # Django compressor
-    'compressor.finders.CompressorFinder', )
+    'compressor.finders.CompressorFinder',
+)
 
 #
 # Email
@@ -212,13 +219,16 @@ LANGUAGES = (
     ('el', 'Greek'),
     ('cs', 'Czech'),
     ('sv', 'Swedish'),
-    ('no', 'Norwegian'), )
+    ('no', 'Norwegian'),
+)
 
 # Default language code for this installation.
 LANGUAGE_CODE = 'en'
 
 # All translation files are in one place
-LOCALE_PATHS = (os.path.join(SITE_ROOT, 'locale'), )
+LOCALE_PATHS = (
+    os.path.join(SITE_ROOT, 'locale'),
+)
 
 FLAVOURS_STORAGE_BACKEND = 'session'
 
@@ -259,7 +269,7 @@ RECAPTCHA_USE_SSL = True
 #
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
         'LOCATION': 'wger-cache',
         'TIMEOUT': 30 * 24 * 60 * 60,  # Cache for a month
     }
@@ -318,6 +328,11 @@ STATIC_URL = '/static/'
 
 # The default is not DEBUG, override if needed
 # COMPRESS_ENABLED = True
+COMPRESS_CSS_FILTERS = (
+    'compressor.filters.css_default.CssAbsoluteFilter',
+    'compressor.filters.cssmin.rCSSMinFilter'
+)
+
 COMPRESS_CSS_FILTERS = ('compressor.filters.css_default.CssAbsoluteFilter',
                         'compressor.filters.cssmin.rCSSMinFilter')
 COMPRESS_ROOT = STATIC_ROOT
@@ -332,20 +347,20 @@ else:
 # Django Rest Framework
 #
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission', ),
-    'PAGINATE_BY':
-    20,
+    'DEFAULT_PERMISSION_CLASSES': ('wger.utils.permissions.WgerPermission',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',
+                                'rest_framework.filters.OrderingFilter'),
+    'PAGINATE_BY': 20,
     'PAGINATE_BY_PARAM':
     'limit',  # Allow client to override, using `?limit=xxx`.
     'TEST_REQUEST_DEFAULT_FORMAT':
     'json',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication', ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'rest_framework.filters.DjangoFilterBackend',
-        'rest_framework.filters.OrderingFilter', )
 }
+
 
 #
 # CORS headers: allow all hosts to access the API
@@ -356,7 +371,9 @@ CORS_URLS_REGEX = r'^/api/.*$'
 #
 # Ignore these URLs if they cause 404
 #
-IGNORABLE_404_URLS = (re.compile(r'^/favicon\.ico$'), )
+IGNORABLE_404_URLS = (
+    re.compile(r'^/favicon\.ico$'),
+)
 
 #
 # Application specific configuration options

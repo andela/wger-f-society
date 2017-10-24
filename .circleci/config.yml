@@ -44,7 +44,8 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            invoke create_settings --settings-path ./settings.py --database-path ./wger/database.sqlite
+            invoke create-settings --settings-path ./settings.py --database-path ./wger/database.sqlite
+            python manage.py makemigrations
             python manage.py test
             flake8 ./wger/
 

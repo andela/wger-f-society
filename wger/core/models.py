@@ -43,10 +43,11 @@ class Author(models.Model):
     Author of an exercise
     '''
     name = models.CharField(max_length=256, unique=True,
-                                  verbose_name=_('name'))
+                            verbose_name=_('name'))
 
     def __str__(self):
         return self.name
+
 @python_2_unicode_compatible
 class Language(models.Model):
     '''
@@ -229,7 +230,7 @@ by the US Department of Agriculture. It is extremely complete, with around
 
     created_by = models.ForeignKey('self',
                                    null=True,
-                                   blank=True,
+                                   blank=False,
                                    verbose_name=_('Created by'),
                                    help_text=_('Default User created by flag'))
     '''The created users flag'''
