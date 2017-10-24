@@ -39,6 +39,18 @@ from django.utils.dateparse import parse_date
 
 
 @python_2_unicode_compatible
+class Author(models.Model):
+    '''
+    Author of an exercise
+    '''
+    name = models.CharField(max_length=256, unique=True,
+                            verbose_name=_('name'))
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
 class Language(models.Model):
     '''
     Language of an item (exercise, workout, etc.)

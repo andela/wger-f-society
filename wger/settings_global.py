@@ -117,7 +117,6 @@ MIDDLEWARE_CLASSES = (
 
     # Send an appropriate Header so search engines don't index pages
     'wger.utils.middleware.RobotsExclusionMiddleware',
-
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -191,7 +190,6 @@ EMAIL_SUBJECT_PREFIX = '[wger] '
 #
 LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = '/'
-
 
 #
 # Internationalization
@@ -298,7 +296,6 @@ THUMBNAIL_ALIASES = {
         'large_cropped': {'size': (800, 800), 'crop': 'smart', 'quality': 90},
     },
 }
-
 
 #
 # Django compressor
