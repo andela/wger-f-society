@@ -203,6 +203,7 @@ class WorkoutManagerTestCase(BaseTestCase, TestCase):
                 self.assertEqual(field.id, value)
             except AssertionError:
                 self.assertEqual(field.name, value)
+
     def post_test_hook(self):
         '''
         Hook to add some more specific tests after the basic add or delete
