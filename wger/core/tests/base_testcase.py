@@ -199,8 +199,10 @@ class WorkoutManagerTestCase(BaseTestCase, TestCase):
 
         # Other objects (from foreign keys), check the ID
         else:
-            self.assertEqual(field.id, value)
-
+            try:
+                self.assertEqual(field.id, value)
+            except AssertionError:
+                self.assertEqual(field.name, value)
     def post_test_hook(self):
         '''
         Hook to add some more specific tests after the basic add or delete
