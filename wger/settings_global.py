@@ -307,7 +307,7 @@ LOGGING = {
 #
 # ReCaptcha
 #
-RECAPTCHA_USE_SSL = True                 
+RECAPTCHA_USE_SSL = True
 
 #
 # Cache
