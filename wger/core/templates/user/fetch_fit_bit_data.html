@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n staticfiles wger_extras %}
+
+{% block title %}{% trans "Fetch FitBit Data" %}{% endblock %}
+
+{% block content %}
+<p> {% trans "Fetch your weight data from Fitbit" %}
+</p>
+<a href="{{fitbitData_url}}" class="btn btn-default">{% trans "Fetch FitbitData" %}</a>
+{% endblock %} 

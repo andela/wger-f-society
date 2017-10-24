@@ -109,6 +109,8 @@ router.register(
 router.register(
     r'language', core_api_views.LanguageViewSet, base_name='language')
 router.register(
+    r'user/register', core_api_views.UserRegistrationViewset, base_name='user-register')
+router.register(
     r'daysofweek', core_api_views.DaysOfWeekViewSet, base_name='daysofweek')
 router.register(r'license', core_api_views.LicenseViewSet, base_name='license')
 router.register(
@@ -121,24 +123,16 @@ router.register(
     base_name='setting-weight-unit')
 
 # Exercises app
+router.register(r'exercise', exercises_api_views.ExerciseViewSet, base_name='exercise')
+router.register(r'equipment', exercises_api_views.EquipmentViewSet, base_name='api')
 router.register(
-    r'exercise', exercises_api_views.ExerciseViewSet, base_name='exercise')
-router.register(
-    r'equipment', exercises_api_views.EquipmentViewSet, base_name='api')
-router.register(
-    r'exercisecategory',
-    exercises_api_views.ExerciseCategoryViewSet,
-    base_name='exercisecategory')
-router.register(
-    r'exerciseimage',
-    exercises_api_views.ExerciseImageViewSet,
-    base_name='exerciseimage')
-router.register(
-    r'exercisecomment',
-    exercises_api_views.ExerciseCommentViewSet,
-    base_name='exercisecomment')
-router.register(
-    r'muscle', exercises_api_views.MuscleViewSet, base_name='muscle')
+    r'exercise_details',
+    exercises_api_views.ExerciseDetailViewSet,
+    base_name="exercise_details")
+router.register(r'exercisecategory', exercises_api_views.ExerciseCategoryViewSet, base_name='exercisecategory')
+router.register(r'exerciseimage', exercises_api_views.ExerciseImageViewSet, base_name='exerciseimage')
+router.register(r'exercisecomment', exercises_api_views.ExerciseCommentViewSet, base_name='exercisecomment')
+router.register(r'muscle', exercises_api_views.MuscleViewSet, base_name='muscle')
 
 # Nutrition app
 router.register(

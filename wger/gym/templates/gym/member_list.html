@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load i18n staticfiles wger_extras django_bootstrap_breadcrumbs %}
 
-{% block title %}{{gym}}{% endblock %}
+{% block title %}{{gym}}
+    <small title="Members" style="position:absolute;right:32px;margin-top:15px;">
+        <a  href="{% url 'gym:gym:user-category' gym.id 'active' %}">Active</a>|<a href="{% url 'gym:gym:user-category' gym.id 'inactive' %}">Inactive</a>
+    </small>
+{% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
@@ -9,6 +13,7 @@
     {% if perms.gym.manage_gyms %}
         {% breadcrumb "Gyms" "gym:gym:list" %}
         {% breadcrumb_raw gym "gym:gym:user-list" gym.pk %}
+        {% breadcrumb_raw user_status "gym:gym:user-category" %}
     {% endif %}
 {% endblock %}
 

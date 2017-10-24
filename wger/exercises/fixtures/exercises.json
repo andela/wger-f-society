@@ -1711,7 +1711,8 @@
             "category": 8,
             "uuid": "48a59aa8-4568-409c-8afe-f8cb99c558ea",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Biceps curls with dumbbell"
@@ -1824,7 +1825,8 @@
             "category": 8,
             "uuid": "6dcc9adb-939c-4581-9e44-d0d73753997b",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Hammercurls"
@@ -2536,7 +2538,9 @@
             "category": 13,
             "uuid": "9926e18f-4e2b-4c20-9477-9bfb08d229bc",
             "muscles": [
-                2
+                2,
+                17,
+                18
             ],
             "license": 1,
             "name": "Shoulder press, barbell"
@@ -2578,7 +2582,9 @@
             "category": 13,
             "uuid": "1df6a1b5-7bd2-402f-9d5e-94f9ed6d8b54",
             "muscles": [
-                2
+                2,
+                17,
+                18
             ],
             "license": 1,
             "name": "Shoulder press, dumbbells"
@@ -2709,7 +2715,8 @@
             "category": 8,
             "uuid": "8c6c1544-cbf8-403c-ae12-b27b392702f8",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Biceps curl with cable"
@@ -2791,7 +2798,8 @@
             "category": 8,
             "uuid": "06e9de49-ac1b-45c1-b289-475118932434",
             "muscles": [
-                1
+                1,
+                19
             ],
             "license": 1,
             "name": "Hammercurls am Seil"
@@ -4590,7 +4598,10 @@
             "creation_date": "2014-03-09",
             "category": 13,
             "uuid": "53ca25b3-61d9-4f72-bfdb-492b83484ff5",
-            "muscles": [],
+            "muscles": [
+              17,
+              18
+            ],
             "license": 1,
             "name": "Arnold Shoulder Press"
         },
@@ -4640,7 +4651,9 @@
             "category": 13,
             "uuid": "89e6d2ea-9a17-4a77-9a52-d5bcf39d57fd",
             "muscles": [
-                2
+                2,
+                18,
+                19
             ],
             "license": 1,
             "name": "Military Press"
@@ -4811,7 +4824,8 @@
             "category": 10,
             "uuid": "7729ffe5-a896-4deb-80e0-f4e6163c0c09",
             "muscles": [
-                6
+                6,
+                19
             ],
             "license": 1,
             "name": "Plank"
@@ -5574,7 +5588,8 @@
             "category": 8,
             "uuid": "88568115-5e88-4afc-b005-e2f7d453ac13",
             "muscles": [
-                5
+                5,
+                19
             ],
             "license": 1,
             "name": "Tricep Dumbbell Kickback"
@@ -6146,7 +6161,9 @@
                 6,
                 3,
                 15,
-                5
+                5,
+                17,
+                18
             ],
             "license": 2,
             "name": "Bear Walk"
@@ -6307,7 +6324,9 @@
             "creation_date": "2015-03-07",
             "category": 8,
             "uuid": "1ec5352f-41da-408b-8e6c-3fef79475847",
-            "muscles": [],
+            "muscles": [
+              19
+            ],
             "license": 2,
             "name": "Hand Grip"
         },
@@ -6524,7 +6543,10 @@
             "creation_date": "2015-06-12",
             "category": 13,
             "uuid": "ee291ad5-2064-4d0a-b252-c715f362e035",
-            "muscles": [],
+            "muscles": [
+              17,
+              18
+            ],
             "license": 2,
             "name": "Diagonal shoulder Press"
         },
@@ -6653,7 +6675,8 @@
             "category": 8,
             "uuid": "4e15a410-5530-4b86-964f-8af26e118e2b",
             "muscles": [
-                5
+                5,
+                19
             ],
             "license": 2,
             "name": "Body-Ups"
@@ -7505,7 +7528,9 @@
             "creation_date": "2016-02-15",
             "category": 8,
             "uuid": "22eb7cf6-bf6c-42c3-a1c8-85c2fc2ed931",
-            "muscles": [],
+            "muscles": [
+              19
+            ],
             "license": 2,
             "name": "Standing Rope Forearm"
         },
