@@ -43,6 +43,9 @@ from wger.weight import helpers
 from wger.utils.helpers import check_access
 from wger.utils.generic_views import WgerFormMixin
 
+from wger.core.models import FitbitUser
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -182,17 +185,24 @@ def get_weight_data(request, username=None):
 
     date_min = request.GET.get('date_min', False)
     date_max = request.GET.get('date_max', True)
-
-    if date_min and date_max:
-        weights = WeightEntry.objects.filter(
-            user=user, date__range=(date_min, date_max))
-    else:
-        weights = WeightEntry.objects.filter(user=user)
-
+    fitbit = request.GET.get('fitbit')
+    weights = []
     chart_data = []
 
-    for i in weights:
-        chart_data.append({'date': i.date, 'weight': i.weight})
+    if fitbit:
+        results = get_fitbit(request.user)
+        if results[0]:
+            weights_raw = results[1]
+            for i in weights_raw:
+                chart_data.append(
+                    {'date': i[0].date, 'weight': i[0].weight})
+    else:
+        if date_min and date_max:
+            weights = WeightEntry.objects.filter(user=user, date__range=(date_min, date_max))
+        else:
+            weights = WeightEntry.objects.filter(user=user)
+        for i in weights:
+            chart_data.append({'date': i.date, 'weight': i.weight})
 
     # Return the results to the client
     return Response(chart_data)
