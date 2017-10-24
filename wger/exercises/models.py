@@ -351,7 +351,6 @@ class Exercise(AbstractSubmissionModel, AbstractLicenseModel, models.Model):
                 if not author:
                     author = Author(name=name)
                     author.save()
-                    print(author, "here")
                 self.license_author = author
             subject = _('New user submitted exercise')
             message = _(
