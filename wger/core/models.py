@@ -37,6 +37,7 @@ from wger.settings_global import WGER_SETTINGS as settings
 from wger.weight.models import WeightEntry
 from django.utils.dateparse import parse_date
 
+
 @python_2_unicode_compatible
 class Author(models.Model):
     '''
@@ -47,6 +48,7 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
 
 @python_2_unicode_compatible
 class Language(models.Model):
